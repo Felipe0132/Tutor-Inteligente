@@ -1,8 +1,8 @@
 import streamlit as st
 import base64
-import requests
 import os
 from dotenv import load_dotenv
+from groq import Groq
 
 load_dotenv()
 
@@ -11,13 +11,18 @@ colab_url = os.getenv("COLAB_URL", "")
 st.write('Tutor Inteligente')
 st.write("Tire suas dúvidas de matemática e resolva problemas passo a passo!")
 
-if not colab_url:
+groq_api_key = os.getenv("GROQ_API_KEY", "")
+if not groq_api_key:
     try:
-        colab_url = st.secrets.get("COLAB_URL", "")
-    except Exception: # Se secrets.toml não existir localmente, ignora o erro
-        colab_url = ""
+        groq_api_key = st.secrets.get("GROQ_API_KEY", "")
+    except Exception:
+        groq_api_key = ""
 
-colab_url = colab_url.rstrip("/")
+if not groq_api_key:
+    st.error("Chave 'GROQ_API_KEY' não configurada! Verifique as Secrets no Streamlit Cloud.")
+    st.stop()
+
+client = Groq(api_key=groq_api_key)
 
 # Função para converter imagem para Base64
 def imagem_para_base64(uploaded_file):
@@ -34,36 +39,32 @@ if st.session_state.get("instrucao") and st.session_state.instrucao != " ":
     SYSTEM_PROMPT += f"\n\nO aluno selecionou o tópico de estudo: {topico_instrucao.upper()}."
 
 def requisitar_tutor(mensagem):
-    if not colab_url:
-        st.error("URL do Colab não configurada! Verifique o arquivo .env no computador ou Secrets no Streamlit Cloud.")
-        st.stop()
+    messages_payload = [{'role': 'system', 'content': SYSTEM_PROMPT}]
 
-    endpoint = f"{colab_url}/api/chat" # Modelo como o Ollama
-    
-    payload = { # JSON exigido pelo Ollama
-        "model": "llava",
-        "messages": mensagem, 
-        "stream": False # Recebe mensagem inteira
-    }
-
-    # Cabeçalho para burlar a tela de aviso do Ngrok
-    headers = {
-        "ngrok-skip-browser-warning": "true",
-        "User-Agent": "StreamlitApp",
-        "Content-Type": "application/json",
-    }
+    for msg in mensagem:
+        role = msg['role']
+        content = msg['content']
+        img_b64 = msg.get('image_b64')
+        if img_b64:
+            user_content = [
+                {'type': 'text', 'text': content if content else "Analise esta imagem."},
+                {'type': 'image_url', 'image_url':{'url': f'data:image/jpeg;base64,{img_b64}'}}
+            ] # Padrao das imagens eh ler um texto e depois a url dela, passando que eh uma url e depois a url
+            messages_payload.append({"role":role, "content":user_content}) # contente seria tudo
+        else:
+            messages_payload.append({"role": role, "content": content})
 
     try:
-        resposta = requests.post(endpoint, json=payload, headers=headers, timeout=120)
-
-        if resposta.status_code == 200:
-            return resposta.json()["message"]["content"] # Retorna a mensagem da IA
-        else:
-            st.error(f"Erro no servidor (Código {resposta.status_code}). Verifique o Colab.")
-            st.code(f"Headers: {dict(resposta.headers)}\n\nBody: '{resposta.text}'")
-            st.stop()
-    except requests.exceptions.RequestException as e:
-        st.error(f"Erro de conexão com a URL do Ngrok. O notebook do Colab está ativo? Detalhes: {e}")
+        # Chamada oficial da API
+        response = client.chat.completions.create(
+            model="llama-3.2-11b-vision-instruct",
+            messages=messages_payload,
+            temperature=0.3,
+            max_tokens=1024,
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        st.error(f"Erro ao se comunicar com a Groq API: {e}")
         st.stop()
 
 if "historico" not in st.session_state:
@@ -83,45 +84,37 @@ if "historico" not in st.session_state:
             " ajudar a estudar hoje."
         )
 
-    payload_inicial = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": instrucao_inicial},
-    ]
+    primeira_msg = [{"role": "user", "content": instrucao_inicial}]
 
     with st.spinner("O tutor está se preparando..."):
-        saudacao_ia = requisitar_tutor(payload_inicial)
-        st.session_state.historico.append(("assistant", saudacao_ia))
+        saudacao_ia = requisitar_tutor(primeira_msg)
+        st.session_state.historico.append({"role": "assistant", "content": saudacao_ia})
 
-for autor, texto in st.session_state.historico:
-    with st.chat_message(autor):
-        st.markdown(texto)
+for msg in st.session_state.historico:  
+    with st.chat_message(msg['role']):
+        st.markdown(msg['content'])
 
 imagem_carregada = st.file_uploader("Envie uma foto do problema (opcional)", type=["png", "jpg", "jpeg"])
 
 if prompt := st.chat_input("Digite sua duvida ou o exercicio de matematica..."): # Testa e retorna prompt
     if imagem_carregada:
         st.image(imagem_carregada, caption="Imagem enviada", width=250)
-
-    st.session_state.historico.append(("user", prompt))
+        img_b64 = imagem_para_base64(imagem_carregada)
+    else:
+        img_b64 = None
 
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    mensagem_payload = [{"role":"system", "content": SYSTEM_PROMPT}] # Cria a primeira instrucao
+    st.session_state.historico.append({
+        "role": "user", 
+        "content": prompt, 
+        "image_b64": img_b64 # Caso tenha
+    })
 
-    for autor, texto in st.session_state.historico:
-        role = "assistant" if autor == "assistant" else "user"
-        # Faz o sistema reconhecer de quem eh a mensagem
-        mensagem_payload.append({"role":role, "content":texto})
-
-    # Adiciona a imagem Base64 na ÚLTIMA mensagem do usuário (se anexada)
-    if imagem_carregada:
-        img_b64 = imagem_para_base64(imagem_carregada)
-        mensagem_payload[-1]["images"] = [img_b64]
-
-    with st.spinner("O tutor está analisando sua pergunta..."):
-        resposta_tutor = requisitar_tutor(mensagem_payload)
-
-    st.session_state.historico.append(("assistant", resposta_tutor))
     with st.chat_message("assistant"):
-        st.markdown(resposta_tutor)
+        with st.spinner("O tutor está analisando sua pergunta..."):
+            resposta_tutor = requisitar_tutor(st.session_state.historico)
+            st.markdown(resposta_tutor)
+
+    st.session_state.historico.append({"role": "assistant", "content": resposta_tutor})
