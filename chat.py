@@ -57,7 +57,7 @@ def requisitar_tutor(mensagem):
     try:
         # Chamada oficial da API
         response = client.chat.completions.create(
-            model="llama-3.2-11b-vision-preview",
+            model="qwen/qwen3.6-27b",
             messages=messages_payload,
             temperature=0.3,
             max_tokens=1024,
