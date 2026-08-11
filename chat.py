@@ -94,7 +94,16 @@ for msg in st.session_state.historico:
     with st.chat_message(msg['role']):
         st.markdown(msg['content'])
 
-imagem_carregada = st.file_uploader("Envie uma foto do problema (opcional)", type=["png", "jpg", "jpeg"])
+with st.popover("📎 Anexar imagem"):
+    imagem_carregada = st.file_uploader(
+        "Selecione uma foto da questão", 
+        type=["png", "jpg", "jpeg"],
+        key="uploader_popover"
+    )
+
+if imagem_carregada:
+    st.caption("📷 Imagem pronta para envio:")
+    st.image(imagem_carregada, width=150)
 
 if prompt := st.chat_input("Digite sua duvida ou o exercicio de matematica..."): # Testa e retorna prompt
     if imagem_carregada:
