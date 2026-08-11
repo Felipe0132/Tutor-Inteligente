@@ -35,7 +35,7 @@ if st.session_state.get("instrucao") and st.session_state.instrucao != " ":
 
 def requisitar_tutor(mensagem):
     if not colab_url:
-        st.error("⚠️ URL do Colab não configurada! Verifique o arquivo .env no computador ou Secrets no Streamlit Cloud.")
+        st.error("URL do Colab não configurada! Verifique o arquivo .env no computador ou Secrets no Streamlit Cloud.")
         st.stop()
 
     endpoint = f"{colab_url}/api/chat" # Modelo como o Ollama
