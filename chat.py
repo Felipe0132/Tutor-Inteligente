@@ -1,107 +1,35 @@
 import streamlit as st
-import base64
-import requests
 import os
 from dotenv import load_dotenv
-import re
-
-def formatar_latex(texto: str) -> str:
-    # Converte \[ ... \] (bloco) para $$ ... $$
-    texto = re.sub(r'\\\[(.*?)\\\]', r'$$\1$$', texto, flags=re.DOTALL)
-    # Converte \( ... \) (inline) para $ ... $
-    texto = re.sub(r'\\\((.*?)\\\)', r'$\1$', texto, flags=re.DOTALL)
-    return texto
+import conversor as conv
+import leitor_arquivo as lv
+import requisicao_tutor as tutor
 
 load_dotenv()
 
-colab_url = os.getenv("COLAB_URL", "")
+SYSTEM_PROMPT = lv.ler_arquivo("contexto.txt")
 
 st.write('Tutor Inteligente')
 st.write("Tire suas dúvidas de matemática e resolva problemas passo a passo!")
-
-if not colab_url:
-    try:
-        colab_url = st.secrets.get("COLAB_URL", "")
-    except Exception: # Se secrets.toml não existir localmente, ignora o erro
-        colab_url = ""
-
-colab_url = colab_url.rstrip("/")
-
-# Função para converter imagem para Base64
-def imagem_para_base64(uploaded_file):
-    return base64.b64encode(uploaded_file.getvalue()).decode("utf-8")
-
-try:
-    with open("contexto.txt", "r", encoding="utf-8") as f:
-        SYSTEM_PROMPT = f.read()
-except FileNotFoundError:
-    SYSTEM_PROMPT = "Você é um tutor de matemática didático e paciente."
-
-if st.session_state.get("instrucao") and st.session_state.instrucao != " ":
-    topico_instrucao = st.session_state.instrucao
-    SYSTEM_PROMPT += f"\n\nO aluno selecionou o tópico de estudo: {topico_instrucao.upper()}."
-
-def requisitar_tutor(mensagem):
-    if not colab_url:
-        st.error("⚠️ URL do Colab não configurada! Verifique o arquivo .env no computador ou Secrets no Streamlit Cloud.")
-        st.stop()
-
-    endpoint = f"{colab_url}/api/chat" # Modelo como o Ollama
-    
-    payload = { # JSON exigido pelo Ollama
-        "model": "qwen2.5vl:3b",
-        "messages": mensagem, 
-        "stream": False # Recebe mensagem inteira
-    }
-
-    # Cabeçalho para burlar a tela de aviso do Ngrok
-    headers = {
-        "ngrok-skip-browser-warning": "true",
-        "Content-Type": "application/json"
-    }
-
-    try:
-        resposta = requests.post(endpoint, json=payload, headers=headers, timeout=120)
-
-        if resposta.status_code == 200:
-            return resposta.json()["message"]["content"] # Retorna a mensagem da IA
-        else:
-            st.error(f"Erro no servidor (Código {resposta.status_code}). Verifique o Colab.")
-            st.code(f"Headers: {dict(resposta.headers)}\n\nBody: '{resposta.text}'")
-            st.stop()
-    except requests.exceptions.RequestException as e:
-        st.error(f"Erro de conexão com a URL do Ngrok. O notebook do Colab está ativo? Detalhes: {e}")
-        st.stop()
 
 if "historico" not in st.session_state:
     st.session_state.historico = []
 
     if st.session_state.get("instrucao") and st.session_state.instrucao != " ":
         topico_nome = st.session_state.instrucao.upper()
-        instrucao_inicial = (
-            f"Apresente-se rapidamente como Tutor Inteligente, mencione que"
-            f" vamos estudar o tema {topico_nome} e liste 3 opções de tópicos"
-            " ou problemas comuns sobre esse assunto para eu escolher."
-        )
-    else:
-        instrucao_inicial = (
-            "Apresente-se rapidamente como Tutor Inteligente de Matemática, dê"
-            " as boas-vindas e pergunte qual assunto de matemática posso te"
-            " ajudar a estudar hoje."
-        )
+        INTRODUCAO_PROMPT = lv.ler_arquivo("introducao").join(topico_nome)
 
     payload_inicial = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": instrucao_inicial},
+        {"role": "user", "content": INTRODUCAO_PROMPT},
     ]
 
     with st.spinner("O tutor está se preparando..."):
-        saudacao_ia = requisitar_tutor(payload_inicial)
-        st.session_state.historico.append(("assistant", saudacao_ia))
+        introducao = tutor.requisitar_tutor(payload_inicial)
+        st.session_state.historico.append(("assistant", introducao))
 
 for autor, texto in st.session_state.historico:
     with st.chat_message(autor):
-        st.markdown(formatar_latex(texto))
+        st.markdown(conv.formatar_latex(texto))
 
 prompt_data = st.chat_input(
     "Digite sua duvida ou o exercicio de matematica...",
@@ -119,23 +47,22 @@ if prompt_data and prompt_data.text: # Testa e retorna prompt
     st.session_state.historico.append(("user", prompt))
 
     with st.chat_message("user"):
-        st.markdown(formatar_latex(prompt))
+        st.markdown(conv.formatar_latex(prompt))
 
     mensagem_payload = [{"role":"system", "content": SYSTEM_PROMPT}] # Cria a primeira instrucao
 
     for autor, texto in st.session_state.historico:
-        role = "assistant" if autor == "assistant" else "user"
-        # Faz o sistema reconhecer de quem eh a mensagem
+        role = "assistant" if autor == "assistant" else "user" # Faz o sistema reconhecer de quem eh a mensagem
         mensagem_payload.append({"role":role, "content":texto})
 
     # Adiciona a imagem Base64 na ÚLTIMA mensagem do usuário (se anexada)
     if imagem_carregada:
-        img_b64 = imagem_para_base64(imagem_carregada)
+        img_b64 = conv.imagem_para_base64(imagem_carregada)
         mensagem_payload[-1]["images"] = [img_b64]
 
     with st.spinner("O tutor está analisando sua pergunta..."):
-        resposta_tutor = requisitar_tutor(mensagem_payload)
+        resposta_tutor = tutor.requisitar_tutor(mensagem_payload)
 
     st.session_state.historico.append(("assistant", resposta_tutor))
     with st.chat_message("assistant"):
-        st.markdown(formatar_latex(resposta_tutor))
+        st.markdown(conv.formatar_latex(resposta_tutor))
