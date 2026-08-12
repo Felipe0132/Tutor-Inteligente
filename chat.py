@@ -17,9 +17,11 @@ if "historico" not in st.session_state:
 
     if st.session_state.get("instrucao") and st.session_state.instrucao != " ":
         topico_nome = st.session_state.instrucao.upper()
-        INTRODUCAO_PROMPT = lv.ler_arquivo("introducao").join(topico_nome)
+        INTRODUCAO_PROMPT = lv.ler_arquivo("introducao") + topico_nome
+    else:
+        INTRODUCAO_PROMPT = lv.ler_arquivo("introducao")
 
-    payload_inicial = [
+    payload_inicial = [ # Padrao modelo
         {"role": "user", "content": INTRODUCAO_PROMPT},
     ]
 
@@ -31,13 +33,9 @@ for autor, texto in st.session_state.historico:
     with st.chat_message(autor):
         st.markdown(conv.formatar_latex(texto))
 
-prompt_data = st.chat_input(
-    "Digite sua duvida ou o exercicio de matematica...",
-    accept_file=True,
-    file_type=["png", "jpg", "jpeg"]
-)
+prompt_data = st.chat_input("Digite sua duvida ou o exercicio de matematica...", accept_file=True, file_type=["png", "jpg", "jpeg"])
 
-if prompt_data and prompt_data.text: # Testa e retorna prompt
+if prompt_data and prompt_data.text: # Se existem mensagem e se tiver texto
     prompt = prompt_data.text
     imagem_carregada = prompt_data.files[0] if prompt_data.files else None
 
@@ -55,11 +53,11 @@ if prompt_data and prompt_data.text: # Testa e retorna prompt
         role = "assistant" if autor == "assistant" else "user" # Faz o sistema reconhecer de quem eh a mensagem
         mensagem_payload.append({"role":role, "content":texto})
 
-    # Adiciona a imagem Base64 na ÚLTIMA mensagem do usuário (se anexada)
+    
     if imagem_carregada:
-        img_b64 = conv.imagem_para_base64(imagem_carregada)
-        mensagem_payload[-1]["images"] = [img_b64]
-
+        img_b64 = conv.imagem_para_base64(imagem_carregada)# Adiciona a imagem em Base64
+        mensagem_payload[-1]["images"] = [img_b64] # Coloca ela como ultima mensagem, falando que eh uma imagem ligado a ultima pergunta
+ 
     with st.spinner("O tutor está analisando sua pergunta..."):
         resposta_tutor = tutor.requisitar_tutor(mensagem_payload)
 

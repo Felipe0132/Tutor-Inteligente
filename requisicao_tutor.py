@@ -14,10 +14,10 @@ colab_url = colab_url.rstrip("/")
 
 def requisitar_tutor(mensagem):
     if not colab_url:
-        st.error("⚠️ URL do Colab não configurada! Verifique o arquivo .env no computador ou Secrets no Streamlit Cloud.")
+        st.error("URL do Colab não configurada! Verifique o arquivo .env no computador ou Secrets no Streamlit Cloud.")
         st.stop()
 
-    endpoint = f"{colab_url}/api/chat" # Modelo como o Ollama
+    endpoint = f"{colab_url}/api/chat" # Acesso ao colab
     
     payload = { # JSON exigido pelo Ollama
         "model": "qwen2.5vl:3b",
@@ -25,17 +25,16 @@ def requisitar_tutor(mensagem):
         "stream": False # Recebe mensagem inteira
     }
 
-    # Cabeçalho para burlar a tela de aviso do Ngrok
-    headers = {
+    headers = {# Cabeçalho para burlar a tela de aviso do Ngrok
         "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json"
     }
 
     try:
-        resposta = requests.post(endpoint, json=payload, headers=headers, timeout=120)
+        resposta = requests.post(endpoint, json=payload, headers=headers, timeout=120) # Requisicao do servidor para resposta
 
         if resposta.status_code == 200:
-            return resposta.json()["message"]["content"] # Retorna a mensagem da IA
+            return resposta.json()["message"]["content"] # Retorna o conteudo da mensagem da IA
         else:
             st.error(f"Erro no servidor (Código {resposta.status_code}). Verifique o Colab.")
             st.code(f"Headers: {dict(resposta.headers)}\n\nBody: '{resposta.text}'")
