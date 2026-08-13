@@ -1,16 +1,17 @@
 import requests
 import streamlit as st
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 colab_url = os.getenv("COLAB_URL", "")
 
 if not colab_url:
     try:
         colab_url = st.secrets.get("COLAB_URL", "")
-    except Exception: # Se secrets.toml não existir localmente, ignora o erro
+    except Exception:
         colab_url = ""
-
-colab_url = colab_url.rstrip("/")
 
 def requisitar_tutor(mensagem):
     if not colab_url:

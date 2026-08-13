@@ -1,9 +1,10 @@
 import streamlit as st
-import os
+import json
 from dotenv import load_dotenv
 import conversor as conv
 import leitor_arquivo as lv
 import requisicao_tutor as tutor
+import graficos as gc
 
 load_dotenv()
 
@@ -27,11 +28,15 @@ if "historico" not in st.session_state:
 
     with st.spinner("O tutor está se preparando..."):
         introducao = tutor.requisitar_tutor(payload_inicial)
-        st.session_state.historico.append(("assistant", introducao))
+        st.session_state.historico.append(("assistant", introducao, None))
 
-for autor, texto in st.session_state.historico:
+for autor, texto, grafico in st.session_state.historico:
     with st.chat_message(autor):
-        st.markdown(conv.formatar_latex(texto))
+        if grafico:
+            fig = gc.renderizar_grafico_matematico(grafico)
+            st.plotly_chart(fig, use_container_width=True)
+        if texto:
+            st.markdown(conv.formatar_latex(texto))
 
 prompt_data = st.chat_input("Digite sua duvida ou o exercicio de matematica...", accept_file=True, file_type=["png", "jpg", "jpeg"])
 
@@ -42,16 +47,16 @@ if prompt_data and prompt_data.text: # Se existem mensagem e se tiver texto
     if imagem_carregada:
         st.image(imagem_carregada, caption="Imagem enviada", width=250)
 
-    st.session_state.historico.append(("user", prompt))
+    st.session_state.historico.append(("user", prompt, None))
 
     with st.chat_message("user"):
         st.markdown(conv.formatar_latex(prompt))
 
     mensagem_payload = [{"role":"system", "content": SYSTEM_PROMPT}] # Cria a primeira instrucao
 
-    for autor, texto in st.session_state.historico:
-        role = "assistant" if autor == "assistant" else "user" # Faz o sistema reconhecer de quem eh a mensagem
-        mensagem_payload.append({"role":role, "content":texto})
+    for autor, texto, grafico in st.session_state.historico:
+        role = "assistant" if autor == "assistant" else "user"
+        mensagem_payload.append({"role": role, "content": texto})
 
     
     if imagem_carregada:
@@ -60,7 +65,24 @@ if prompt_data and prompt_data.text: # Se existem mensagem e se tiver texto
  
     with st.spinner("O tutor está analisando sua pergunta..."):
         resposta_tutor = tutor.requisitar_tutor(mensagem_payload)
+        if "<grafico>" in resposta_tutor:
+            antes, resto = resposta_tutor.split("<grafico>", 1) # Quebra uma vez em <grafico>
 
-    st.session_state.historico.append(("assistant", resposta_tutor))
+            json_grafico, depois = resto.split("</grafico>")
+            texto = (antes.strip() + " " + depois.strip()).strip()
+
+            dados_grafico = json.loads(json_grafico.strip())
+
+        else:
+            texto = resposta_tutor.strip()
+            dados_grafico = None
+
+    st.session_state.historico.append(("assistant", texto, dados_grafico))
+
+
     with st.chat_message("assistant"):
-        st.markdown(conv.formatar_latex(resposta_tutor))
+        if dados_grafico:
+            fig = gc.renderizar_grafico_matematico(dados_grafico)
+            st.plotly_chart(fig, use_container_width=True)
+        if texto:
+            st.markdown(conv.formatar_latex(texto))
