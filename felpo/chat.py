@@ -1,11 +1,15 @@
 import streamlit as st
 import json
 from dotenv import load_dotenv
-import conversor as conv
-import leitor_arquivo as lv
-import requisicao_tutor as tutor
-import graficos as gc
+import utils.conversor as conv
+import utils.leitor_arquivo as lv
+import felpo.requisicao_tutor as tutor
+import utils.graficos as gc
 
+'''
+    Codigo do Felpo, caso eu tenha feito muita merda
+
+'''
 load_dotenv()
 
 SYSTEM_PROMPT = lv.ler_arquivo("contexto.txt")
@@ -38,7 +42,11 @@ for autor, texto, grafico in st.session_state.historico:
         if texto:
             st.markdown(conv.formatar_latex(texto))
 
-prompt_data = st.chat_input("Digite sua duvida ou o exercicio de matematica...", accept_file=True, file_type=["png", "jpg", "jpeg"])
+prompt_data = st.chat_input(
+        "Digite sua duvida ou o exercicio de matematica...", 
+        accept_file=True, 
+        file_type=["png", "jpg", "jpeg"]
+    )
 
 if prompt_data and prompt_data.text: # Se existem mensagem e se tiver texto
     prompt = prompt_data.text
@@ -62,7 +70,7 @@ if prompt_data and prompt_data.text: # Se existem mensagem e se tiver texto
     if imagem_carregada:
         img_b64 = conv.imagem_para_base64(imagem_carregada)# Adiciona a imagem em Base64
         mensagem_payload[-1]["images"] = [img_b64] # Coloca ela como ultima mensagem, falando que eh uma imagem ligado a ultima pergunta
- 
+
     with st.spinner("O tutor está analisando sua pergunta..."):
         resposta_tutor = tutor.requisitar_tutor(mensagem_payload)
         if "<grafico>" in resposta_tutor:

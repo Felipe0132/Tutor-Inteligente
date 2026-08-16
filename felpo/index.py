@@ -1,4 +1,17 @@
 import streamlit as st
+import chat_flexivel as chat_flexivel
+
+class Botao:
+    def __init__(self, nome, imagem, key, instrucoes=None):
+        self.nome = nome
+        self.imagem = imagem
+        self.key = key
+        self.instrucoes = instrucoes
+
+    def renderizar(self):
+        st.image(self.imagem)
+        return st.button(self.nome, key=self.key, use_container_width=True)
+
 
 if "instrucao" not in st.session_state:
     st.session_state.instrucao  = " "
@@ -48,5 +61,8 @@ if st.session_state.instrucao == " ":
     pg = st.navigation([index_page])
 else:
     pg = st.navigation([chat_page])
+
+
+chat_flexivel.chat_expansivo()
 
 pg.run()

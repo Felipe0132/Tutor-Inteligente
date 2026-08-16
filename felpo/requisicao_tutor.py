@@ -3,6 +3,11 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 
+'''
+    Codigo do Felpo, caso eu tenha feito muita merda
+
+'''
+
 load_dotenv()
 
 colab_url = os.getenv("COLAB_URL", "")
@@ -31,6 +36,7 @@ def requisitar_tutor(mensagem):
         "Content-Type": "application/json"
     }
 
+    st.session_state.tutor_ocupado = True  # Marca o tutor como ocupado
     try:
         resposta = requests.post(endpoint, json=payload, headers=headers, timeout=120) # Requisicao do servidor para resposta
 
@@ -43,3 +49,5 @@ def requisitar_tutor(mensagem):
     except requests.exceptions.RequestException as e:
         st.error(f"Erro de conexão com a URL do Ngrok. O notebook do Colab está ativo? Detalhes: {e}")
         st.stop()
+    finally:
+        st.session_state.tutor_ocupado = False  # Marca o tutor como disponível
