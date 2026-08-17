@@ -11,20 +11,23 @@ load_dotenv()
 colab_url = os.getenv("COLAB_URL", "")
 groq_api_key = os.getenv("GROQ_API_KEY", "")
 
+back = "colab"
 
 if not colab_url:
     try:
         colab_url = st.secrets.get("COLAB_URL", "")
     except Exception:
         colab_url = ""
+    back = "colab"
 
 if not groq_api_key:
     try:
         groq_api_key = st.secrets.get("GROQ_API_KEY", "")
     except Exception:
         groq_api_key = ""
+    back = "groq"
 
-BACKEND = "groq"
+BACKEND = back
 
 def requisitar_tutor(mensagem):
     if BACKEND == "colab":

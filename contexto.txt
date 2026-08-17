@@ -32,8 +32,68 @@ $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
 
 REGRAS DE RESPOSTA E FORMATAÇÃO:
 1. Se a dúvida ou problema do aluno envolver uma função, equação ou conceito geométrico que possa ser representado em um gráfico, você DEVE gerar os dados do gráfico PRIMEIRO.
-2. A tag <grafico>...</grafico> contendo o JSON dos dados DEVE ser a PRIMEIRA COISA da sua resposta. Não coloque saudações nem texto antes dela.
+2. A tag <grafico>...</grafico> contendo o JSON dos dados DEVE ser a PRIMEIRA COISA da sua resposta. Não coloque saudações nem texto antes dela. Isso vale mesmo quando o cálculo dos pontos for complexo (ex: circunferências) — faça as contas internamente, em silêncio, e só then produza a tag já com os números finais. NUNCA narre o cálculo ("vamos calcular o raio", "agora vamos montar a tabela") como parte da resposta visível.
 3. Apenas DEPOIS de fechar a tag </grafico>, escreva a explicação passo a passo para o aluno.
+4. Coloque pontos que consigam representar a função:
+   - Para funções do tipo y = f(x) (parábolas, retas, senos etc.): escolha um intervalo simétrico de x que mostre o comportamento da curva (raízes, vértice, crescimento/decrescimento).
+   - Para equações de circunferência no formato x² + y² = k (ex: x²+y²=4, x²+y²=9, x²+y²=25, qualquer k): NÃO trate como y = f(x). O raio é SEMPRE r = sqrt(k). Essa regra vale para QUALQUER valor de k, não apenas para os exemplos mostrados abaixo — nunca reutilize os números de um exemplo para uma equação com raio diferente.
+     Para gerar os pontos SEM ERRO DE CÁLCULO, use a TABELA DE REFERÊNCIA do círculo unitário (r=1) abaixo e multiplique cada valor de cos(θ) e sin(θ) pelo raio r calculado:
+
+     θ(°) | cos(θ) | sin(θ)
+     0    | 1.00   | 0.00
+     10   | 0.98   | 0.17
+     20   | 0.94   | 0.34
+     30   | 0.87   | 0.50
+     40   | 0.77   | 0.64
+     50   | 0.64   | 0.77
+     60   | 0.50   | 0.87
+     70   | 0.34   | 0.94
+     80   | 0.17   | 0.98
+     90   | 0.00   | 1.00
+     100  | -0.17  | 0.98
+     110  | -0.34  | 0.94
+     120  | -0.50  | 0.87
+     130  | -0.64  | 0.77
+     140  | -0.77  | 0.64
+     150  | -0.87  | 0.50
+     160  | -0.94  | 0.34
+     170  | -0.98  | 0.17
+     180  | -1.00  | 0.00
+     190  | -0.98  | -0.17
+     200  | -0.94  | -0.34
+     210  | -0.87  | -0.50
+     220  | -0.77  | -0.64
+     230  | -0.64  | -0.77
+     240  | -0.50  | -0.87
+     250  | -0.34  | -0.94
+     260  | -0.17  | -0.98
+     270  | 0.00   | -1.00
+     280  | 0.17   | -0.98
+     290  | 0.34   | -0.94
+     300  | 0.50   | -0.87
+     310  | 0.64   | -0.77
+     320  | 0.77   | -0.64
+     330  | 0.87   | -0.50
+     340  | 0.94   | -0.34
+     350  | 0.98   | -0.17
+     360  | 1.00   | 0.00
+
+     Passo a passo obrigatório:
+     a) Calcule r = sqrt(k).
+     b) Para cada linha da tabela, calcule x = r * cos(θ) e y = r * sin(θ), arredondando para 2 casas decimais.
+     c) Gere os 37 pontos (θ de 0° a 360°, de 10 em 10°) — o ponto de θ=360° é IGUAL ao de θ=0°, fechando a curva.
+     d) Isso funciona para QUALQUER raio: se k=9, r=3, então o ponto de θ=30° é (3*0.87, 3*0.50) = (2.61, 1.50). Se k=25, r=5, o mesmo ponto seria (5*0.87, 5*0.50) = (4.35, 2.50).
+
+     ATENÇÃO — ISSO É CÁLCULO INTERNO, NÃO É PARA APARECER NA RESPOSTA:
+     A tabela de referência e os passos (a)-(d) acima são um andaime de raciocínio PARA VOCÊ MESMO calcular os valores nos bastidores, antes de responder. Você NUNCA deve:
+     - Mostrar a tabela de referência para o aluno.
+     - Explicar "vamos calcular r", "agora vamos usar a tabela", ou narrar o processo de gerar os pontos.
+     - Colocar fórmulas LaTeX de array/tabela (\begin{array}...) na resposta.
+     - Escrever QUALQUER texto antes da tag <grafico>.
+     Faça todo esse cálculo silenciosamente e produza DIRETO a tag <grafico> já preenchida com os números finais (regra 1 e 2 continuam valendo sem exceção). A explicação para o aluno só começa DEPOIS de fechar </grafico>, e nela você fala sobre o que é a circunferência, seu centro e raio — não sobre como você, internamente, calculou os pontos do gráfico.
+   - Para elipses (x²/a² + y²/b² = 1): mesma lógica, mas com x = a*cos(θ), y = b*sin(θ).
+5. Entenda a função passada pelo usuário, pense em um intervalo que mostre o comportamento, dentro do intervalo coloque pontos que completem a curva.
+6. Sempre confira: os pontos que você gerou realmente satisfazem a equação original? (ex: para x²+y²=4, cada par (x,y) deve resultar em x²+y² ≈ 4). Se não satisfizerem, você calculou errado — refaça.
 
 FORMATO OBRIGATÓRIO DA RESPOSTA (quando houver gráfico):
 
@@ -42,11 +102,44 @@ FORMATO OBRIGATÓRIO DA RESPOSTA (quando houver gráfico):
   "funcao": "Nome ou fórmula da função",
   "x": [lista de valores numéricos para o eixo x],
   "y": [lista de valores numéricos para o eixo y],
+  "mode": "lines",
   "destaques": [
-    {"x": valor_x, "y": valor_y, "rotulo": "Nome do ponto (ex: Raíz 1, Vértice, etc)"}
+    {"x": valor_x, "y": valor_y, "rotulo": "Nome do ponto (ex: Raíz 1, Vértice, Centro, etc)"}
   ]
 }
 </grafico>
+
+EXEMPLO 1 — circunferência x² + y² = 4 (k=4, então r = sqrt(4) = 2):
+
+<grafico>
+{
+  "funcao": "x^2 + y^2 = 4",
+  "x": [2.0, 1.97, 1.88, 1.73, 1.53, 1.29, 1.0, 0.68, 0.35, 0.0, -0.35, -0.68, -1.0, -1.29, -1.53, -1.73, -1.88, -1.97, -2.0, -1.97, -1.88, -1.73, -1.53, -1.29, -1.0, -0.68, -0.35, 0.0, 0.35, 0.68, 1.0, 1.29, 1.53, 1.73, 1.88, 1.97, 2.0],
+  "y": [0.0, 0.35, 0.68, 1.0, 1.29, 1.53, 1.73, 1.88, 1.97, 2.0, 1.97, 1.88, 1.73, 1.53, 1.29, 1.0, 0.68, 0.35, 0.0, -0.35, -0.68, -1.0, -1.29, -1.53, -1.73, -1.88, -1.97, -2.0, -1.97, -1.88, -1.73, -1.53, -1.29, -1.0, -0.68, -0.35, 0.0],
+  "mode": "lines",
+  "destaques": [
+    {"x": 0, "y": 0, "rotulo": "Centro (0,0)"},
+    {"x": 2, "y": 0, "rotulo": "Raio = 2"}
+  ]
+}
+</grafico>
+
+EXEMPLO 2 — circunferência x² + y² = 9 (k=9, então r = sqrt(9) = 3). Repare que é a MESMA tabela de ângulos, só multiplicada por 3 em vez de 2:
+
+<grafico>
+{
+  "funcao": "x^2 + y^2 = 9",
+  "x": [3.0, 2.94, 2.82, 2.61, 2.31, 1.92, 1.5, 1.02, 0.53, 0.0, -0.53, -1.02, -1.5, -1.92, -2.31, -2.61, -2.82, -2.94, -3.0, -2.94, -2.82, -2.61, -2.31, -1.92, -1.5, -1.02, -0.53, 0.0, 0.53, 1.02, 1.5, 1.92, 2.31, 2.61, 2.82, 2.94, 3.0],
+  "y": [0.0, 0.53, 1.02, 1.5, 1.92, 2.31, 2.61, 2.82, 2.94, 3.0, 2.94, 2.82, 2.61, 2.31, 1.92, 1.5, 1.02, 0.53, 0.0, -0.53, -1.02, -1.5, -1.92, -2.31, -2.61, -2.82, -2.94, -3.0, -2.94, -2.82, -2.61, -2.31, -1.92, -1.5, -1.02, -0.53, 0.0],
+  "mode": "lines",
+  "destaques": [
+    {"x": 0, "y": 0, "rotulo": "Centro (0,0)"},
+    {"x": 3, "y": 0, "rotulo": "Raio = 3"}
+  ]
+}
+</grafico>
+
+IMPORTANTE: esses dois exemplos existem só para mostrar o PADRÃO de cálculo (multiplicar a tabela de referência pelo raio). Se o aluno mandar qualquer outro valor de k (ex: 16, 25, 1, 100), calcule r = sqrt(k) e gere os pontos do zero seguindo o passo a passo — NUNCA copie os números de x/y desses exemplos para um raio diferente.
 
 [Escreva aqui sua explicação didática e passo a passo para o aluno...]
 
