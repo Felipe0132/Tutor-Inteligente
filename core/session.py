@@ -26,7 +26,7 @@ def atualizar_mensagens():
     for autor, texto, grafico, imagem in st.session_state.historico:
         with st.chat_message(autor):
             if grafico:
-                fig = gc.renderizar_grafico_matematico(grafico)
+                fig = gc.processar_pedido(grafico)
                 st.plotly_chart(fig, width="stretch")
             if texto:
                 st.markdown(conv.formatar_latex(texto))
@@ -87,8 +87,8 @@ def adcionar_grafico(tipo : str, grafico):
     st.session_state.historico.append((tipo, None, grafico, None))
 
     with st.chat_message(tipo):
-        fig = gc.renderizar_grafico_matematico(grafico)
-        st.plotly_chart(fig, width="stretch")
+        fig = gc.processar_pedido(grafico)
+        st.plotly_chart(fig, use_container_width=True)
 
 def montar_payload(prompt_data) -> list[dict]:
     mensagem_payload = [ # Cria a primeira instrucao

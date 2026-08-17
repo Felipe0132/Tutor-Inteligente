@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/felipe/Área de trabalho/Tutor/venv/bin/python3" "$0" "$@"
-' '''
+#!/home/felipe/Documentos/GitHub/Tutor-Inteligente/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

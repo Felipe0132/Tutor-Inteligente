@@ -4,3 +4,4 @@ python-dotenv
 groq
 streamlit[charts]
 plotly
+sympy

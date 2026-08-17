@@ -29,12 +29,16 @@ if not groq_api_key:
 
 BACKEND = back
 
-def requisitar_tutor(mensagem):
-    if BACKEND == "colab":
-        return requisitar_tutor_colab(mensagem)
+try:
+    def requisitar_tutor(mensagem):
+        if BACKEND == "colab":
+            return requisitar_tutor_colab(mensagem)
 
-    elif BACKEND == "groq":
-        return requisitar_tutor_groq(mensagem)
+        elif BACKEND == "groq":
+            return requisitar_tutor_groq(mensagem)
+except:
+    st.error("Algo deu errado ao tentar conectar com o Tutor!")
+    st.stop()
 
 def requisitar_tutor_colab(mensagem) -> str:
 
