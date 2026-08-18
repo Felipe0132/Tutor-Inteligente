@@ -119,16 +119,18 @@ def montar_payload(prompt_data) -> list[dict]:
     return mensagem_payload
 
 def montar_payload_inicial() -> list[dict]:
-    INTRODUCAO_PROMPT = ""
+    texto_introducao = lv.ler_arquivo("introducao")
+
+    instrucao_state = st.session_state.get("instrucao")
         
-    if st.session_state.get("instrucao") and st.session_state.instrucao != " ":
-        topico_nome = st.session_state.instrucao.upper()
-        INTRODUCAO_PROMPT = lv.ler_arquivo("introducao") + topico_nome
+    if instrucao_state and instrucao_state.strip():
+        topico_nome = instrucao_state.upper()
+        prompt_usuario = f"{texto_introducao}\n\nTópico selecionado: {topico_nome}"
     else:
-        INTRODUCAO_PROMPT = lv.ler_arquivo("introducao")    
+        prompt_usuario = texto_introducao
     
     payload_inicial = [ # Padrao modelo
-        {"role": "user", "content": INTRODUCAO_PROMPT},
+        {"role": "user", "content": texto_introducao},
     ]
 
     return payload_inicial
