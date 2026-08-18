@@ -33,8 +33,23 @@ def processar_pedido(grafico):
     fy = sp.lambdify(t, sym_y, 'numpy')
 
     fig = go.Figure()
-    fig.update_yaxes(scaleanchor="x", scaleratio=1)
-    #fig.update_yaxes(scaleanchor="y", scaleratio=2)   
+    fig.update_xaxes(
+        zeroline=True,
+        zerolinewidth=2,
+        zerolinecolor="rgba(255, 255, 255, 0.7)",  # Linha do eixo Y (onde x=0)
+        showgrid=True,
+        gridcolor="rgba(128, 128, 128, 0.2)",
+    )
+
+    fig.update_yaxes(
+        scaleanchor="x",
+        scaleratio=1,
+        zeroline=True,
+        zerolinewidth=2,
+        zerolinecolor="rgba(255, 255, 255, 0.7)",  # Linha do eixo X (onde y=0)
+        showgrid=True,
+        gridcolor="rgba(128, 128, 128, 0.2)",
+    )
 
     ts = np.linspace(t_min, t_max, 400) # Quantos pontos no intervalo
     xs = np.array(fx(ts)) # Vetor com todos os resultados
