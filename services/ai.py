@@ -11,34 +11,33 @@ load_dotenv()
 colab_url = os.getenv("COLAB_URL", "")
 groq_api_key = os.getenv("GROQ_API_KEY", "")
 
-back = "colab"
-
 if not colab_url:
     try:
         colab_url = st.secrets.get("COLAB_URL", "")
     except Exception:
         colab_url = ""
-    back = "colab"
 
 if not groq_api_key:
     try:
         groq_api_key = st.secrets.get("GROQ_API_KEY", "")
     except Exception:
         groq_api_key = ""
-    back = "groq"
 
-BACKEND = back
+if colab_url and colab_url.strip():
+    BACKEND = "colab"
+elif groq_api_key and groq_api_key.strip():
+    BACKEND = "groq"
+else:
+    BACKEND = "none"
 
-try:
-    def requisitar_tutor(mensagem):
-        if BACKEND == "colab":
-            return requisitar_tutor_colab(mensagem)
-
-        elif BACKEND == "groq":
-            return requisitar_tutor_groq(mensagem)
-except:
-    st.error("Algo deu errado ao tentar conectar com o Tutor!")
-    st.stop()
+def requisitar_tutor(mensagem):
+    if BACKEND == "colab":
+        return requisitar_tutor_colab(mensagem)
+    elif BACKEND == "groq":
+        return requisitar_tutor_groq(mensagem)
+    else:
+        st.error("Nenhum backend (COLAB_URL ou GROQ_API_KEY) configurado!")
+        st.stop()
 
 def requisitar_tutor_colab(mensagem) -> str:
 
@@ -135,13 +134,11 @@ def requisitar_tutor_groq(mensagem):
     try:
 
         response = client.chat.completions.create(
-            model="qwen/qwen3.6-27b",
+            model="llama-3.3-70b-versatile",
             messages=messages_payload,
             temperature=0.3,
             max_completion_tokens=2048,
-            stream=False,
-            reasoning_format="hidden"
-
+            stream=False
         )
         
         return response.choices[0].message.content

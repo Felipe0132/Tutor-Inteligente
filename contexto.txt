@@ -28,6 +28,7 @@ Antes de gerar a saída, você DEVE analisar a equação do usuário seguindo es
 - Multiplicações com `*` (ex: `2*cos(t)`).
 - Potências com `**` (ex: `t**2`).
 - A única variável permitida dentro de `expr_x` e `expr_y` é `t`. NUNCA use a letra `x`.
+- NUNCA utilize blocos de código markdown (como ```json ou ```) dentro ou ao redor das tags <grafico> e </grafico>. Escreva o JSON puro diretamente entre as tags.
 
 ---
 

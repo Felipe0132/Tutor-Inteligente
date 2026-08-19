@@ -14,20 +14,26 @@ def processar_pedido(grafico):
     ponto: usado só em limite/derivada (o x onde acontece)
     """
 
-    tipo = grafico.get("tipo")
-    expr_x = grafico.get("expr_x")
-    expr_y = grafico.get("expr_y")
+    tipo = grafico.get("tipo", "funcao")
+    expr_x = str(grafico.get("expr_x") or "t")
+    expr_y = str(grafico.get("expr_y") or "t")
 
-    raw_t_min = grafico.get("t_min", -5)
-    raw_t_max = grafico.get("t_max", 5)
-    t_min = float(sp.sympify(raw_t_min)) # Converte para float (avalia até strings como "-2*pi" ou "0")
+    raw_t_min = grafico.get("t_min")
+    if raw_t_min is None or str(raw_t_min).strip() == "":
+        raw_t_min = -5
+
+    raw_t_max = grafico.get("t_max")
+    if raw_t_max is None or str(raw_t_max).strip() == "":
+        raw_t_max = 5
+
+    t_min = float(sp.sympify(raw_t_min))
     t_max = float(sp.sympify(raw_t_max))
 
     ponto_raw = grafico.get("ponto")
-    ponto = sp.sympify(ponto_raw) if ponto_raw is not None else None
+    ponto = sp.sympify(ponto_raw) if (ponto_raw is not None and str(ponto_raw).strip() != "") else None
 
-    sym_x = sp.sympify(expr_x).subs(x, t) # Forca x virar t
-    sym_y = sp.sympify(expr_y).subs(x, t)
+    sym_x = sp.sympify(expr_x, convert_xor=True).subs(x, t) # Forca x virar t
+    sym_y = sp.sympify(expr_y, convert_xor=True).subs(x, t)
     
     fx = sp.lambdify(t, sym_x, 'numpy')
     fy = sp.lambdify(t, sym_y, 'numpy')

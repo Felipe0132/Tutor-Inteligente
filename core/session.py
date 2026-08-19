@@ -3,7 +3,6 @@ import json
 from dotenv import load_dotenv
 import utils.conversor as conv
 import utils.leitor_arquivo as lv
-import felpo.requisicao_tutor as tutor
 import utils.graficos as gc
 import services.ai as ai
 
@@ -130,7 +129,7 @@ def montar_payload_inicial() -> list[dict]:
         prompt_usuario = texto_introducao
     
     payload_inicial = [ # Padrao modelo
-        {"role": "user", "content": texto_introducao},
+        {"role": "user", "content": prompt_usuario},
     ]
 
     return payload_inicial
