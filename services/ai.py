@@ -5,6 +5,7 @@ import utils.conversor as conv
 from dotenv import load_dotenv
 import json
 from groq import Groq
+import re
 
 load_dotenv()
 
@@ -29,6 +30,8 @@ elif groq_api_key and groq_api_key.strip():
     BACKEND = "groq"
 else:
     BACKEND = "none"
+
+BACKEND = "groq"
 
 def requisitar_tutor(mensagem):
     if BACKEND == "colab":
@@ -134,7 +137,8 @@ def requisitar_tutor_groq(mensagem):
     try:
 
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            #model="llama-3.3-70b-versatile", <- Esse modelo nao funcionou no meu
+            model="qwen/qwen3.8-27b",
             messages=messages_payload,
             temperature=0.3,
             max_completion_tokens=2048,
@@ -149,6 +153,7 @@ def requisitar_tutor_groq(mensagem):
         )
         st.stop()
 
+'''
 def verificar_grafico(resposta : str) -> bool:
     return "<grafico>" in resposta
 
@@ -157,3 +162,55 @@ def extrair_grafico(resposta : str) -> tuple[dict, str]:
     antes, resto = resposta.split("<grafico>", 1)
     json_grafico, depois = resto.split("</grafico>")
     return json.loads(json_grafico.strip()), (antes.strip() + " " + depois.strip()).strip()
+'''
+
+def verificar_grafico(resposta: str) -> bool:
+    return bool(
+        re.search(
+            r"<grafico>\s*.*?\s*</grafico>",
+            resposta,
+            re.DOTALL | re.IGNORECASE
+        )
+    )
+
+
+def extrair_grafico(resposta: str) -> tuple[str | None, str]:
+
+    padrao = r"<grafico>\s*(.*?)\s*</grafico>"
+
+    match = re.search(
+        padrao,
+        resposta,
+        re.DOTALL | re.IGNORECASE
+    )
+
+    if not match:
+        return None, resposta.strip()
+
+    conteudo = match.group(1).strip()
+
+    # Remove markdown acidental:
+    conteudo = re.sub(
+        r"^```(?:json)?\s*",
+        "",
+        conteudo,
+        flags=re.IGNORECASE
+    )
+
+    conteudo = re.sub(
+        r"\s*```$",
+        "",
+        conteudo
+    )
+
+    conteudo = conteudo.strip()
+
+    # Reconstrói o bloco para o processador de gráficos
+    grafico = f"<grafico>\n{conteudo}\n</grafico>"
+
+    texto = (
+        resposta[:match.start()]
+        + resposta[match.end():]
+    ).strip()
+
+    return grafico, texto

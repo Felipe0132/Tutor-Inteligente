@@ -10,7 +10,7 @@ def obter_input_usuario():
         accept_file=True, 
         file_type=["png", "jpg", "jpeg"]
     )
-
+'''
 def processar_interacao_ia(prompt_data):
     imagem_carregada = (prompt_data.files[0] if prompt_data.files else None)
 
@@ -30,7 +30,44 @@ def processar_interacao_ia(prompt_data):
     sess.adcionar_mensagem("assistant", texto)
     
     st.rerun()
+'''
 
+def processar_interacao_ia(prompt_data):
+    imagem_carregada = (
+        prompt_data.files[0]
+        if prompt_data.files
+        else None
+    )
+
+    sess.adicionar_mensagem_usuario(
+        prompt_data.text,
+        imagem_carregada
+    )
+
+    with st.spinner("O tutor está processando sua mensagem..."):
+        resposta_tutor = ai.requisitar_tutor(
+            sess.montar_payload(prompt_data)
+        )
+
+    texto = resposta_tutor.strip()
+
+    if ai.verificar_grafico(resposta_tutor):
+        grafico, texto = ai.extrair_grafico(
+            resposta_tutor
+        )
+
+        if grafico:
+            sess.adicionar_grafico(
+                "assistant",
+                grafico
+            )
+
+    sess.adcionar_mensagem(
+        "assistant",
+        texto
+    )
+
+    st.rerun()
 
 def renderizar_chat_tela_cheia():
     sess.inicializar_mensagens()

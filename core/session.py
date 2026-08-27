@@ -3,8 +3,10 @@ import json
 from dotenv import load_dotenv
 import utils.conversor as conv
 import utils.leitor_arquivo as lv
-import utils.graficos as gc
+#import utils.graficos as gc
+import utils.graph as gc
 import services.ai as ai
+
 
 SYSTEM_PROMPT = lv.ler_arquivo("contexto.txt")
 
@@ -25,7 +27,7 @@ def atualizar_mensagens():
     for autor, texto, grafico, imagem in st.session_state.historico:
         with st.chat_message(autor):
             if grafico:
-                fig = gc.processar_pedido(grafico)
+                fig = gc.processar_grafico(grafico)
                 st.plotly_chart(fig, width="stretch")
             if texto:
                 st.markdown(conv.formatar_latex(texto))
@@ -76,6 +78,7 @@ def adicionar_mensagem_usuario(texto, imagem=None):
         if texto:
             st.markdown(conv.formatar_latex(texto))
 
+'''
 def adcionar_grafico(tipo : str, grafico):
     if (tipo != "assistant"):
         raise ValueError("O tipo de mensagem deve ser 'assistant'.")
@@ -88,6 +91,31 @@ def adcionar_grafico(tipo : str, grafico):
     with st.chat_message(tipo):
         fig = gc.processar_pedido(grafico)
         st.plotly_chart(fig, use_container_width=True)
+'''
+
+def adicionar_grafico(tipo: str, grafico):
+    print(grafico)
+    if tipo != "assistant":
+        raise ValueError("O tipo de mensagem deve ser 'assistant'.")
+
+    if grafico is None or not isinstance(grafico, str) or not grafico.strip():
+        return
+
+    st.session_state.historico.append(
+        (tipo, None, grafico, None)
+    )
+
+    with st.chat_message(tipo):
+        try:
+            fig = gc.processar_grafico(grafico)
+
+            st.plotly_chart(
+                fig,
+                use_container_width=True
+            )
+
+        except Exception as e:
+            st.error(f"Não foi possível gerar o gráfico: {e}")
 
 def montar_payload(prompt_data) -> list[dict]:
     mensagem_payload = [ # Cria a primeira instrucao
