@@ -1,0 +1,73 @@
+===============================================================================
+TÓPICO 2: FUNÇÕES POLINOMIAIS E EXPRESSÕES ALGÉBRICAS
+Carga Horária: 12 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. FUNÇÕES DO PRIMEIRO GRAU (AFINS)
+-------------------------------------------------------------------------------
+- Definição: f(x) = ax + b, com a, b ∈ R e a ≠ 0.
+  * a: Coeficiente angular (inclinacao da reta, a = Δy / Δx).
+  * b: Coeficiente linear (interseção com o eixo y no ponto (0, b)).
+- Raiz ou Zero da Função: f(x) = 0 => x = -b/a.
+- Gráfico: Uma reta não vertical.
+  * Se a > 0: Função crescente.
+  * Se a < 0: Função decrescente.
+- Estudo do Sinal de ax + b:
+  * Muda de sinal na raiz x = -b/a.
+  * Para x > -b/a, tem o mesmo sinal de a.
+  * Para x < -b/a, tem o sinal contrário de a.
+
+
+2. FUNÇÕES DO SEGUNDO GRAU (QUADRÁTICAS)
+-------------------------------------------------------------------------------
+- Definição: f(x) = ax² + bx + c, com a, b, c ∈ R e a ≠ 0.
+- Gráfico: Parábola com eixo de simetria vertical.
+  * Concavidade:
+    - Se a > 0: Concavidade voltada para cima (U). Possui PONTO DE MÍNIMO.
+    - Se a < 0: Concavidade voltada para baixo (∩). Possui PONTO DE MÁXIMO.
+- Vértice da Parábola: V = (xv, yv)
+  * xv = -b / (2a)
+  * yv = -Δ / (4a), onde Δ = b² - 4ac.
+- Raizes / Zeros da Função (Fórmula de Bhaskara):
+  * x = (-b ± √Δ) / (2a)
+  * Se Δ > 0: Duas raízes reais e distintas.
+  * Se Δ = 0: Uma raiz real dupla (x = -b / 2a).
+  * Se Δ < 0: Nenhuma raiz real (parábola não corta o eixo x).
+- Equações e Inequações Quadráticas: Estudo do sinal da parábola em relação ao eixo x.
+
+
+3. TRANSLAÇÕES E TRANSFORMAÇÕES DE GRÁFICOS DE FUNÇÕES
+-------------------------------------------------------------------------------
+Seja y = f(x) um gráfico conhecido e c > 0 um número real:
+- Translação Vertical:
+  * y = f(x) + c  -> Desloca o gráfico c unidades para CIMA.
+  * y = f(x) - c  -> Desloca o gráfico c unidades para BAIXO.
+- Translação Horizontal:
+  * y = f(x - c)  -> Desloca o gráfico c unidades para a DIREITA.
+  * y = f(x + c)  -> Desloca o gráfico c unidades para a ESQUERDA.
+- Reflexões:
+  * y = -f(x)     -> Reflete o gráfico em relação ao EIXO X.
+  * y = f(-x)     -> Reflete o gráfico em relação ao EIXO Y.
+- Escalonamento / Dilatação / Contração:
+  * y = c * f(x)  (c > 1): Estica verticalmente por um fator c.
+  * y = f(c * x)  (c > 1): Comprime horizontalmente por um fator c.
+
+
+4. ALGORITMO DA DIVISÃO, RAÍZES, FATORAÇÃO E SIMPLIFICAÇÃO
+-------------------------------------------------------------------------------
+- Definição de Polinômio: P(x) = a_n xⁿ + a_{n-1} xⁿ⁻¹ + ... + a₁ x + a₀.
+- Divisão de Polinômios (P(x) = D(x) · Q(x) + R(x)):
+  * Grau(R) < Grau(D) ou R(x) = 0.
+  * Teorema do Resto: O resto da divisão de P(x) por (x - a) é P(a).
+  * Teorema das Raízes (Teorema de D'Alembert): (x - a) é fator de P(x) <=> P(a) = 0 (a é raiz de P(x)).
+- Fatoração de Polinômios e Expressões Algébricas:
+  * Produtos Notáveis Principais:
+    1) (a + b)² = a² + 2ab + b²
+    2) (a - b)² = a² - 2ab + b²
+    3) Diferença de Quadrados: a² - b² = (a - b)(a + b)
+    4) Soma de Cubos: a³ + b³ = (a + b)(a² - ab + b²)
+    5) Diferença de Cubos: a³ - b³ = (a - b)(a² + ab + b²)
+    6) Trinômio do 2º grau: ax² + bx + c = a(x - x1)(x - x2), onde x1, x2 são as raízes.
+- Simplificação de Expressões Fracionárias:
+  * Fatorar numerador e denominador e cancelar fatores comuns (respeitando o domínio onde o fator cancelado é diferente de zero).

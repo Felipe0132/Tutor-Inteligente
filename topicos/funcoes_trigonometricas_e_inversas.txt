@@ -1,0 +1,88 @@
+===============================================================================
+TÓPICO 5: FUNÇÕES TRIGONOMÉTRICAS E TRIGONOMÉTRICAS INVERSAS
+Carga Horária: 10 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. CÍRCULO TRIGONOMÉTRICO E MEDIDAS DE ÂNGULOS
+-------------------------------------------------------------------------------
+- Círculo Trigonométrico: Círculo de raio R = 1 centrado na origem (0,0) do plano cartesiano.
+- Medidas de Ângulos:
+  * Relação em Radianos: π rad = 180°.
+  * Ângulo em radianos θ = s / r, onde s é o comprimento do arco e r é o raio.
+- Coordenadas no Círculo Trigonométrico para um ponto P(x, y) associado ao ângulo θ:
+  * x = cos(θ) (Eixo horizontal = Eixo dos Cossenos)
+  * y = sin(θ) (Eixo vertical = Eixo dos Senos)
+  * tan(θ) = y / x = sin(θ) / cos(θ) (Eixo das Tangentes x = 1)
+
+
+2. FUNÇÕES TRIGONOMÉTRICAS E SUAS PROPRIEDADES
+-------------------------------------------------------------------------------
+- Função Seno: f(x) = sin(x)
+  * Domínio: R | Imagem: [-1, 1] | Período: 2π | Paridade: Ímpar (sin(-x) = -sin(x))
+
+- Função Cosseno: f(x) = cos(x)
+  * Domínio: R | Imagem: [-1, 1] | Período: 2π | Paridade: Par (cos(-x) = cos(x))
+
+- Função Tangente: f(x) = tan(x) = sin(x) / cos(x)
+  * Domínio: {x ∈ R | x ≠ π/2 + kπ, k ∈ Z} | Imagem: R | Período: π | Paridade: Ímpar
+
+- Funções Recíprocas:
+  * Cosecante: csc(x) = 1 / sin(x), x ≠ kπ
+  * Secante: sec(x) = 1 / cos(x), x ≠ π/2 + kπ
+  * Cotangente: cot(x) = 1 / tan(x) = cos(x) / sin(x), x ≠ kπ
+
+- Formato Geral de Ondas Senoidais: y = A · sin(B x + C) + D
+  * Amplitudes: |A|
+  * Período: P = 2π / |B|
+  * Deslocamento de Fase: -C / B
+  * Deslocamento Vertical: D
+
+
+3. IDENTIDADES E EQUAÇÕES TRIGONOMÉTRICAS
+-------------------------------------------------------------------------------
+- Identidades Fundamentais:
+  1) sin²(x) + cos²(x) = 1
+  2) 1 + tan²(x) = sec²(x)
+  3) 1 + cot²(x) = csc²(x)
+
+- Fórmulas de Adição e Subtração de Arcos:
+  * sin(a ± b) = sin(a)cos(b) ± sin(b)cos(a)
+  * cos(a ± b) = cos(a)cos(b) ∓ sin(a)sin(b)
+  * tan(a ± b) = [tan(a) ± tan(b)] / [1 ∓ tan(a)tan(b)]
+
+- Fórmulas do Arco Duplo:
+  * sin(2x) = 2 sin(x) cos(x)
+  * cos(2x) = cos²(x) - sin²(x) = 2 cos²(x) - 1 = 1 - 2 sin²(x)
+  * Fórmulas do Arco Metade / Redução de Potência:
+    - cos²(x) = [1 + cos(2x)] / 2
+    - sin²(x) = [1 - cos(2x)] / 2
+
+- Equações Trigonométricas Fundamentais:
+  * sin(x) = sin(α)  =>  x = α + 2kπ  OU  x = (π - α) + 2kπ, k ∈ Z
+  * cos(x) = cos(α)  =>  x = α + 2kπ  OU  x = -α + 2kπ, k ∈ Z
+  * tan(x) = tan(α)  =>  x = α + kπ, k ∈ Z
+
+
+4. FUNÇÕES TRIGONOMÉTRICAS INVERSAS
+-------------------------------------------------------------------------------
+Para que as funções trigonométricas admitam inversas, seus domínios devem ser restritos a intervalos onde sejam bijetoras:
+
+- Função Arco-Seno: y = arcsin(x) ou y = sin⁻¹(x)
+  * Definição: y = arcsin(x) <=> sin(y) = x e -π/2 ≤ y ≤ π/2.
+  * Domínio: [-1, 1] | Imagem: [-π/2, π/2].
+
+- Função Arco-Cosseno: y = arccos(x) ou y = cos⁻¹(x)
+  * Definição: y = arccos(x) <=> cos(y) = x e 0 ≤ y ≤ π.
+  * Domínio: [-1, 1] | Imagem: [0, π].
+
+- Função Arco-Tangente: y = arctan(x) ou y = tan⁻¹(x)
+  * Definição: y = arctan(x) <=> tan(y) = x e -π/2 < y < π/2.
+  * Domínio: R | Imagem: (-π/2, π/2).
+  * Assíntotas Horizontais: y = π/2 (quando x -> +∞) e y = -π/2 (quando x -> -∞).
+
+- Identidades de Simplificação Úteis:
+  * sin(arcsin x) = x, para x ∈ [-1, 1]
+  * cos(arcsin x) = √(1 - x²)
+  * sin(arccos x) = √(1 - x²)
+  * tan(arcsin x) = x / √(1 - x²), para |x| < 1

@@ -118,13 +118,19 @@ def montar_payload(prompt_data) -> list[dict]:
     return mensagem_payload
 
 def montar_payload_inicial() -> list[dict]:
-    texto_introducao = lv.ler_arquivo("introducao")
+    texto_introducao = lv.ler_arquivo("introducao.txt")
 
     instrucao_state = st.session_state.get("instrucao")
         
     if instrucao_state and instrucao_state.strip():
-        topico_nome = instrucao_state.upper()
-        prompt_usuario = f"{texto_introducao}\n\nTópico selecionado: {topico_nome}"
+        if instrucao_state.endswith(".txt"):
+            caminho_topico = f"topicos/{instrucao_state}"
+            conteudo_topico = lv.ler_arquivo(caminho_topico)
+            nome_limpo = instrucao_state.replace(".txt", "").replace("_", " ").title()
+            prompt_usuario = f"{texto_introducao}\n\nTópico selecionado: {nome_limpo}\n\n--- DETALHES DO TÓPICO E CONTEÚDO DA EMENTA ---\n{conteudo_topico}"
+        else:
+            topico_nome = instrucao_state.upper()
+            prompt_usuario = f"{texto_introducao}\n\nTópico selecionado: {topico_nome}"
     else:
         prompt_usuario = texto_introducao
     

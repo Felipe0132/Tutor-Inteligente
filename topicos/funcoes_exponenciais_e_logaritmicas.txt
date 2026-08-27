@@ -1,0 +1,82 @@
+===============================================================================
+TÓPICO 4: FUNÇÕES EXPONENCIAIS E FUNÇÕES LOGARÍTMICAS
+Carga Horária: 8 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. FUNÇÕES EXPONENCIAIS
+-------------------------------------------------------------------------------
+- Definição: f(x) = a^x, com a > 0 e a ≠ 1.
+  * Domínio: R.
+  * Imagem: (0, +∞) (estritamente positiva).
+  * Interseção com o eixo y: (0, 1) pois a⁰ = 1.
+  * Assíntota Horizontal: O eixo x (reta y = 0) é assíntota horizontal.
+
+- Comportamento Gráfico e Monotonicidade:
+  * Se a > 1: Função Estritamente CRESCENTE (ex: 2^x, e^x).
+    - x -> +∞  =>  a^x -> +∞
+    - x -> -∞  =>  a^x -> 0
+  * Se 0 < a < 1: Função Estritamente DECRESCENTE (ex: (1/2)^x).
+    - x -> +∞  =>  a^x -> 0
+    - x -> -∞  =>  a^x -> +∞
+
+- Propriedades Operatórias das Potências:
+  1) a^x · a^y = a^(x+y)
+  2) a^x / a^y = a^(x-y)
+  3) (a^x)^y = a^(x·y)
+  4) (a · b)^x = a^x · b^x
+  5) (a / b)^x = a^x / b^x
+  6) a^(-x) = 1 / (a^x)
+
+
+2. FUNÇÕES LOGARÍTMICAS E LOGARITMO NATURAL
+-------------------------------------------------------------------------------
+- Definição de Logaritmo: log_a(b) = x  <=>  a^x = b
+  * Condições de Existência: Base a > 0 e a ≠ 1; Logaritmando b > 0.
+
+- Função Logarítmica: f(x) = log_a(x), com a > 0 e a ≠ 1.
+  * É a FUNÇÃO INVERSA da função exponencial g(x) = a^x.
+  * Domínio: (0, +∞).
+  * Imagem: R.
+  * Interseção com o eixo x: (1, 0) pois log_a(1) = 0.
+  * Assíntota Vertical: O eixo y (reta x = 0) é assíntota vertical.
+
+- Logaritmo Natural (ou Neperiano):
+  * É o logaritmo na base e (Número de Euler e ≈ 2,71828182845...):
+    ln(x) = log_e(x)
+  * Relações Inversas fundamentais:
+    - e^(ln x) = x, para todo x > 0
+    - ln(e^x) = x, para todo x ∈ R
+
+- Propriedades Operatórias dos Logaritmos:
+  1) log_a(x · y) = log_a(x) + log_a(y)   (para x > 0, y > 0)
+  2) log_a(x / y) = log_a(x) - log_a(y)   (para x > 0, y > 0)
+  3) log_a(x^k) = k · log_a(x)
+  4) Mudança de Base: log_a(x) = log_b(x) / log_b(a) = ln(x) / ln(a)
+  5) log_a(a) = 1  e  log_a(1) = 0
+
+
+3. EQUAÇÕES EXPONENCIAIS E LOGARÍTMICAS
+-------------------------------------------------------------------------------
+- Equações Exponenciais:
+  * Método da Igualdade de Bases: a^(u(x)) = a^(v(x))  <=>  u(x) = v(x).
+  * Método da Aplicação de Logaritmos (bases diferentes):
+    a^(u(x)) = b  =>  ln(a^(u(x))) = ln(b)  =>  u(x) · ln(a) = ln(b)  =>  u(x) = ln(b) / ln(a).
+  * Método de Mudança de Variável (Substituição y = a^x):
+    Transforma equações do tipo A·(a^x)² + B·(a^x) + C = 0 em equações quadráticas A y² + B y + C = 0.
+
+- Equações Logarítmicas:
+  * ATENÇÃO: Verificar SEMPRE as Condições de Existência (CE) dos logaritmandos!
+  * Método da Igualdade de Logaritmos: log_a(u(x)) = log_a(v(x))  <=>  u(x) = v(x) (respeitando u(x) > 0 e v(x) > 0).
+  * Método da Definição: log_a(u(x)) = k  <=>  u(x) = a^k.
+
+
+4. INEQUAÇÕES EXPONENCIAIS E LOGARÍTMICAS
+-------------------------------------------------------------------------------
+- Regra Fundamental da Monotonicidade (Inversão ou Manutenção do Sinal):
+  * Se a BASE a > 1 (Função Crescente): O sinal da desigualdade SE MANTÉM!
+    - a^(u(x)) > a^(v(x))  <=>  u(x) > v(x)
+    - log_a(u(x)) > log_a(v(x))  <=>  u(x) > v(x) > 0
+  * Se a BASE 0 < a < 1 (Função Decrescente): O sinal da desigualdade SE INVERTE!
+    - a^(u(x)) > a^(v(x))  <=>  u(x) < v(x)
+    - log_a(u(x)) > log_a(v(x))  <=>  0 < u(x) < v(x)

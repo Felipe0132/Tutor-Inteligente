@@ -1,0 +1,74 @@
+===============================================================================
+TÓPICO 1: FUNÇÕES REAIS
+Carga Horária: 8 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. CONJUNTOS NUMÉRICOS E OPERAÇÕES COM INTERVALOS REAIS
+-------------------------------------------------------------------------------
+- Conjuntos Fundamentais:
+  * N = {0, 1, 2, 3, ...} (Naturais)
+  * Z = {..., -2, -1, 0, 1, 2, ...} (Inteiros)
+  * Q = {a/b | a, b ∈ Z e b ≠ 0} (Racionais)
+  * I = R \ Q (Irracionais, ex: √2, π, e)
+  * R = Q ∪ I (Reais)
+
+- Tipos de Intervalos Reais em R:
+  * Intervalo Fechado: [a, b] = {x ∈ R | a ≤ x ≤ b}
+  * Intervalo Aberto: (a, b) = {x ∈ R | a < x < b}
+  * Intervalos Misto/Semiabertos: [a, b) ou (a, b]
+  * Intervalos Infinitos: (-∞, a], [a, +∞), (-∞, +∞)
+
+- Operações entre Intervalos:
+  * União (A ∪ B): elementos em A ou em B.
+  * Intersecção (A ∩ B): elementos simultaneamente em A e em B.
+  * Diferença (A \ B): elementos que estão em A mas não em B.
+
+
+2. DEFINIÇÃO DE FUNÇÃO, DOMÍNIO, CONTRADOMÍNIO E IMAGEM
+-------------------------------------------------------------------------------
+- Definição: Uma função f de um conjunto A em um conjunto B (f: A -> B) é uma 
+  regra que associa a cada elemento x ∈ A um ÚNICO elemento y = f(x) ∈ B.
+
+- Componentes de uma Função Real:
+  * Domínio (Dom(f) ou D_f): Conjunto de todos os valores de entrada x ∈ R para os 
+    quais f(x) está bem definida em R.
+    - Restrições comuns no Domínio:
+      1) Denominador não nulo: em g(x)/h(x), h(x) ≠ 0.
+      2) Radicando de raiz de índice par não negativo: em ⁿ√g(x) (n par), g(x) ≥ 0.
+      3) Logaritmando estritamente positivo: em log_b(g(x)), g(x) > 0.
+  * Contradomínio (CD(f)): Conjunto B onde a função toma seus valores.
+  * Imagem (Im(f) ou Im_f): Subconjunto do contradomínio formado por todos os 
+    valores y reais efetivamente atingidos pela função: Im(f) = {y ∈ B | ∃ x ∈ A, f(x) = y}.
+
+
+3. PROPRIEDADES DAS FUNÇÕES E REPRESENTAÇÕES GRÁFICAS
+-------------------------------------------------------------------------------
+- Paridade de Funções:
+  * Função Par: f(-x) = f(x) para todo x ∈ Dom(f). O gráfico é simétrico em relação ao EIXO Y (ex: f(x) = x², cos(x)).
+  * Função Ímpar: f(-x) = -f(x) para todo x ∈ Dom(f). O gráfico é simétrico em relação à ORIGEM (ex: f(x) = x³, sin(x)).
+
+- Monotonicidade:
+  * Estritamente Crescente: x1 < x2 => f(x1) < f(x2).
+  * Estritamente Decrescente: x1 < x2 => f(x1) > f(x2).
+
+- Funções Definidas por Mais de Uma Sentença (Funções em Partes):
+  * Funções que possuem regras distintas para diferentes intervalos do domínio.
+  * Exemplo: f(x) = { x², se x ≥ 0 ; -x, se x < 0 }.
+
+
+4. COMPOSIÇÃO DE FUNÇÕES, INJETIVIDADE, SOBREJETIVIDADE, BIJETIVIDADE E INVERSA
+-------------------------------------------------------------------------------
+- Composição de Funções (f o g)(x) = f(g(x)):
+  * Domínio de (f o g): Dom(f o g) = {x ∈ Dom(g) | g(x) ∈ Dom(f)}.
+
+- Classificação de Funções:
+  * Injetora: x1 ≠ x2 => f(x1) ≠ f(x2) (elementos distintos têm imagens distintas). 
+    - Teste da Reta Horizontal: qualquer reta horizontal corta o gráfico no máximo uma vez.
+  * Sobrejetora: Im(f) = CD(f) (todo elemento do contradomínio é imagem de pelo menos um x).
+  * Bijetora: É simultaneamente injetora e sobrejetora.
+
+- Função Inversa (f⁻¹):
+  * Uma função f: A -> B admite inversa f⁻¹: B -> A se, e somente se, f for BIJETORA.
+  * Relação fundamental: f(f⁻¹(y)) = y e f⁻¹(f(x)) = x.
+  * O gráfico de f⁻¹(x) é a reflexão do gráfico de f(x) em relação à reta bissetriz y = x.

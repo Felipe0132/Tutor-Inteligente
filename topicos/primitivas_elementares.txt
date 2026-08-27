@@ -1,0 +1,85 @@
+===============================================================================
+TÓPICO 9: PRIMITIVAS ELEMENTARES E INTEGRAIS INDEFINIDAS
+Carga Horária: 4 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. PRIMITIVAS (ANTIDERIVADAS): DEFINIÇÃO E PROPRIEDADES
+-------------------------------------------------------------------------------
+- Definição: Uma função F(x) é chamada de PRIMITIVA (ou antiderivada) de f(x) 
+  em um intervalo I se F'(x) = f(x) para todo x ∈ I.
+
+- Teorema da Família de Primitivas:
+  Se F(x) é uma primitiva de f(x), então qualquer outra primitiva de f(x) é da forma:
+  G(x) = F(x) + C,  onde C ∈ R é uma constante arbitrária de integração.
+
+
+2. DEFINIÇÃO DE INTEGRAL INDEFINIDA
+-------------------------------------------------------------------------------
+- Notação:
+  ∫ f(x) dx = F(x) + C  <=>  F'(x) = f(x)
+  * ∫ : Sinal de Integração
+  * f(x) : Integrando
+  * dx : Variável de integração (indica que x é a variável independente)
+  * C : Constante de integração
+
+- Propriedades Operatórias Fundamentais:
+  1) Integral de uma Constante por Função: ∫ k · f(x) dx = k · ∫ f(x) dx
+  2) Integral da Soma/Diferença: ∫ [f(x) ± g(x)] dx = ∫ f(x) dx ± ∫ g(g) dx
+
+
+3. TABELA DE INTEGRAIS INDEFINIDAS ELEMENTARES
+-------------------------------------------------------------------------------
+1) Regra da Potência:
+   ∫ xⁿ dx = (xⁿ⁺¹) / (n + 1) + C   (para todo n ≠ -1)
+
+2) Caso Especial n = -1 (Logaritmo Natural):
+   ∫ (1 / x) dx = ln |x| + C
+
+3) Função Exponencial:
+   ∫ e^x dx = e^x + C
+   ∫ a^x dx = (a^x) / ln(a) + C   (a > 0, a ≠ 1)
+
+4) Funções Trigonométricas:
+   ∫ sin(x) dx = -cos(x) + C
+   ∫ cos(x) dx = sin(x) + C
+   ∫ sec²(x) dx = tan(x) + C
+   ∫ csc²(x) dx = -cot(x) + C
+   ∫ sec(x) · tan(x) dx = sec(x) + C
+   ∫ csc(x) · cot(x) dx = -csc(x) + C
+
+5) Formas de Funções Trigonométricas Inversas:
+   ∫ 1 / √(1 - x²) dx = arcsin(x) + C
+   ∫ 1 / (1 + x²) dx = arctan(x) + C
+   ∫ 1 / (|x| √(x² - 1)) dx = arcsec(x) + C
+
+
+4. PROBLEMAS DE VALOR INICIAL (PVI)
+-------------------------------------------------------------------------------
+- Definição: Um PVI consiste em encontrar uma primitiva específica y = F(x) que 
+  satisfaça uma equação diferencial dy/dx = f(x) e uma CONDIÇÃO INICIAL dada y(x₀) = y₀.
+
+- Passos para Solução de um PVI:
+  1) Integre dy/dx = f(x) para obter a solução geral com a constante C: y(x) = F(x) + C.
+  2) Substitua os valores da condição inicial x = x₀ e y = y₀ na equação geral.
+  3) Calcule o valor numérico exato da constante C.
+  4) Reescreva a solução particular da função substituindo o valor numérico de C.
+
+
+5. TÉCNICA ELEMENTAR: MÉTODO DA SUBSTITUIÇÃO SIMPLES
+-------------------------------------------------------------------------------
+- Baseado na Regra da Cadeia ao contrário:
+  ∫ f(g(x)) · g'(x) dx = ∫ f(u) du,   fazendo u = g(x) e du = g'(x) dx.
+
+- Procedimento:
+  1) Escolha uma substituição apropriada u = g(x) (geralmente a parte "interna" de uma função composta).
+  2) Calcule o diferencial du = g'(x) dx.
+  3) Reescreva TODA a integral em termos de u e du (sem deixar restar nenhuma variável x).
+  4) Integre a função resultante em u.
+  5) Substitua u = g(x) de volta para obter o resultado final em termos da variável original x.
+
+- Exemplos Clássicos de Substituição:
+  * ∫ (ax + b)ⁿ dx = (ax + b)ⁿ⁺¹ / [a(n + 1)] + C
+  * ∫ e^(ax) dx = (1/a) e^(ax) + C
+  * ∫ sin(ax) dx = -(1/a) cos(ax) + C
+  * ∫ [f'(x) / f(x)] dx = ln |f(x)| + C

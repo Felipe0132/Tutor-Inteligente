@@ -1,0 +1,75 @@
+===============================================================================
+TÓPICO 3: FUNÇÕES MODULARES
+Carga Horária: 2 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. DEFINIÇÃO DE MÓDULO (VALOR ABSOLUTO)
+-------------------------------------------------------------------------------
+- Definição Formal do Módulo de x ∈ R:
+  |x| = {  x,  se x ≥ 0
+        { -x,  se x < 0
+
+- Interpretação Geométrica:
+  * |x| representa a distância do ponto x até a origem 0 na reta real.
+  * |x - a| representa a distância entre os pontos x e a na reta real.
+
+- Propriedades Fundamentais do Módulo:
+  1) |x| ≥ 0 para todo x ∈ R, e |x| = 0 <=> x = 0.
+  2) |-x| = |x|.
+  3) |x · y| = |x| · |y|.
+  4) |x / y| = |x| / |y| (com y ≠ 0).
+  5) √x² = |x| (CRÍTICO: nunca escreva √x² = x sem módulo para x real genérico!).
+  6) Desigualdade Triangular: |x + y| ≤ |x| + |y|.
+  7) |x - y| ≥ ||x| - |y||.
+
+
+2. DEFINIÇÃO DE FUNÇÕES MODULARES E SEUS GRÁFICOS
+-------------------------------------------------------------------------------
+- Função Modular Básica: f(x) = |x|.
+  * Domínio: R.
+  * Imagem: [0, +∞).
+  * O gráfico tem formato de "V", com vértice na origem (0,0), sendo f(x) = x para x ≥ 0 e f(x) = -x para x < 0.
+
+- Construção de Gráficos de Funções Modulares Genéricas y = |g(x)|:
+  * Desenhe primeiro o gráfico da função interna y = g(x).
+  * A parte do gráfico onde g(x) ≥ 0 (acima ou sobre o eixo x) permanece inalterada.
+  * A parte do gráfico onde g(x) < 0 (abaixo do eixo x) é REFLETIDA para cima em relação ao eixo x.
+
+- Funções do tipo y = g(|x|):
+  * Mantenha a parte do gráfico de g(x) onde x ≥ 0.
+  * Reflita essa parte para o lado esquerdo (x < 0) em relação ao eixo y (o gráfico final será par).
+
+
+3. EQUAÇÕES MODULARES
+-------------------------------------------------------------------------------
+- Tipo 1: |u(x)| = k (com k ≥ 0)
+  * Solução: u(x) = k  ou  u(x) = -k.
+  * Se k < 0, a equação NÃO possui solução real (conjunto solução S = ∅).
+
+- Tipo 2: |u(x)| = v(x)
+  * Condição de Existência: v(x) ≥ 0.
+  * Solução: u(x) = v(x)  ou  u(x) = -v(x), testando cada raiz na condição de existência.
+
+- Tipo 3: |u(x)| = |v(x)|
+  * Solução: u(x) = v(x)  ou  u(x) = -v(x).
+
+- Tipo 4: Equações com múltiplos módulos (ex: |x - 1| + |x + 2| = 5)
+  * Método da Tabela de Sinais / Análise por Intervalos:
+    1) Encontre as raízes dos módulos (pontos de mudança de sinal).
+    2) Divida a reta real em subintervalos delimitados por essas raízes.
+    3) Elimine os módulos em cada intervalo de acordo com o sinal da expressão interna.
+    4) Resolva a equação resultante em cada intervalo e verifique se a solução pertence ao intervalo analisado.
+
+
+4. INEQUAÇÕES MODULARES
+-------------------------------------------------------------------------------
+- Propriedades Básicas (para k > 0):
+  1) |u(x)| < k  <=>  -k < u(x) < k  (ou seja, u(x) > -k E u(x) < k).
+  2) |u(x)| ≤ k  <=>  -k ≤ u(x) ≤ k.
+  3) |u(x)| > k  <=>  u(x) < -k  OU  u(x) > k.
+  4) |u(x)| ≥ k  <=>  u(x) ≤ -k  OU  u(x) ≥ k.
+
+- Inequações do tipo |u(x)| < |v(x)|:
+  * Como ambos os lados são não negativos, pode-se elevar ambos os lados ao quadrado:
+    |u(x)|² < |v(x)|² <=> [u(x)]² - [v(x)]² < 0 <=> (u(x) - v(x))(u(x) + v(x)) < 0.

@@ -134,7 +134,7 @@ def requisitar_tutor_groq(mensagem):
     try:
 
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="qwen-2.5-32b",
             messages=messages_payload,
             temperature=0.3,
             max_completion_tokens=2048,

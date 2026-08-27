@@ -1,0 +1,92 @@
+===============================================================================
+TÓPICO 8: APLICAÇÕES DAS DERIVADAS
+Carga Horária: 22 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. TAXAS RELACIONADAS
+-------------------------------------------------------------------------------
+- Problemas onde duas ou mais grandezas relacionadas variam com o tempo t.
+- Estratégia de Resolução:
+  1) Identifique todas as variáveis dadas e as desconhecidas em função de t.
+  2) Escreva uma equação geométrica/física que relacione essas variáveis (ex: Pitágoras, Volume de cone, área).
+  3) Derive ambos os lados da equação implicitamente em relação ao tempo t (usando Regra da Cadeia).
+  4) Substitua os valores conhecidos na equação resultante e isole a taxa desejada (dx/dt, dV/dt, etc.).
+
+
+2. REGRA DE L'HÔSPITAL
+-------------------------------------------------------------------------------
+- Usada para calcular limites indeterminados dos tipos [0 / 0] ou [±∞ / ±∞].
+- Teorema: Se lim_{x -> a} f(x)/g(x) gera indefinição 0/0 ou ±∞/±∞, e se f e g são diferenciáveis próximas de a (com g'(x) ≠ 0), então:
+  lim_{x -> a} [ f(x) / g(x) ] = lim_{x -> a} [ f'(x) / g'(x) ]
+  (desde que o limite à direita exista ou seja ±∞).
+
+- ATENÇÃO: NÃO use a Regra do Quociente! Derive o numerador e o denominador SEPARADAMENTE!
+- Outras Formas Indeterminadas (Reescrever antes de aplicar L'Hôspital):
+  * [0 · ∞]  =>  Reescrever como f / (1/g) ou g / (1/f) para virar 0/0 ou ∞/∞.
+  * [∞ - ∞]  =>  Juntar em uma única fração (mmc) ou fatorar o termo dominante.
+  * [0⁰], [1^∞], [∞⁰]  =>  Usar a transformação y = f(x)^g(x)  =>  ln(y) = g(x) · ln(f(x)).
+
+
+3. MÁXIMOS E MÍNIMOS, CRESCIMENTO E CONCAVIDADE (ESBOÇO DE GRÁFICOS)
+-------------------------------------------------------------------------------
+- Pontos Críticos: x = c é ponto crítico de f se c ∈ Dom(f) e (f'(c) = 0 ou f'(c) não existe).
+
+- Teste da Primeira Derivada (Monotonicidade e Extremos Locais):
+  * Se f'(x) > 0 em um intervalo => f é ESTRITAMENTE CRESCENTE nesse intervalo.
+  * Se f'(x) < 0 em um intervalo => f é ESTRITAMENTE DECRESCENTE nesse intervalo.
+  * Em um ponto crítico c:
+    - Se f' muda de + para - em c => f(c) é um MÁXIMO LOCAL.
+    - Se f' muda de - para + em c => f(c) é um MÍNIMO LOCAL.
+    - Se f' não muda de sinal => c não é extremo local.
+
+- Teste da Segunda Derivada (Concavidade e Pontos de Inflexão):
+  * Se f''(x) > 0 em um intervalo => Gráfico é CONCAVO PARA CIMA (∪).
+  * Se f''(x) < 0 em um intervalo => Gráfico é CONCAVO PARA BAIXO (∩).
+  * Ponto de Inflexão: Ponto (c, f(c)) onde o gráfico MUDAM DE CONCAVIDADE e f é contínua.
+  * Teste do Extremo Local por f''(c):
+    - Se f'(c) = 0 e f''(c) > 0 => MÍNIMO LOCAL em c.
+    - Se f'(c) = 0 e f''(c) < 0 => MÁXIMO LOCAL em c.
+    - Se f''(c) = 0 => Teste inconclusivo (usar 1ª derivada).
+
+- Roteiro Completo para Traçado/Esboço de Gráficos:
+  1) Domínio e Simetrias (Par/Ímpar/Periódica).
+  2) Interseções com os eixos x e y.
+  3) Assíntotas Verticais e Horizontais (Limites no infinito e pontos de descontinuidade).
+  4) Intervalos de crescimento/decrescimento e Pontos Críticos (f').
+  5) Máximos e Mínimos locais (1ª ou 2ª derivada).
+  6) Concavidade e Pontos de Inflexão (f'').
+  7) Esboço final combinando todos os dados.
+
+
+4. TEOREMAS FUNDAMENTAIS: ROLLE E TEOREMA DO VALOR MÉDIO (TVM)
+-------------------------------------------------------------------------------
+- Teorema de Rolle: Se f é contínua em [a, b], diferenciável em (a, b) e f(a) = f(b), 
+  então existe pelo menos um número c ∈ (a, b) tal que f'(c) = 0.
+
+- Teorema do Valor Médio (TVM): Se f é contínua em [a, b] e diferenciável em (a, b), 
+  então existe pelo menos um número c ∈ (a, b) tal que:
+  f'(c) = [ f(b) - f(a) ] / (b - a)
+  (A taxa de variação instantânea em c é igual à taxa de variação média no intervalo [a,b]).
+
+
+5. MODELAGEM E OTIMIZAÇÃO
+-------------------------------------------------------------------------------
+- Problemas de encontrar o valor MÁXIMO ou MÍNIMO absoluto de uma quantidade.
+- Estratégia de Resolução:
+  1) Escreva a Função Objetivo (a variável a ser maximizada/minimizada).
+  2) Identifique a Equação de Restrição para expressar a função objetivo em termos de UMA ÚNICA variável.
+  3) Determine o Intervalo de Domínio Físico/Matemático viável da variável.
+  4) Encontre os pontos críticos no intervalo e avalie a função nos pontos críticos e nas extremidades do intervalo (Teorema do Valor Extremo).
+
+
+6. INCREMENTOS, DIFERENCIAIS E LINEARIZAÇÃO
+-------------------------------------------------------------------------------
+- Linearização L(x) de f em x = a (Aproximação pela Reta Tangente):
+  L(x) = f(a) + f'(a) · (x - a)
+  Para x próximo de a: f(x) ≈ L(x).
+
+- Incrementos e Diferenciais:
+  * Incremento real: Δy = f(a + Δx) - f(a)
+  * Diferencial dy: dy = f'(x) · dx   (onde dx = Δx)
+  * Aproximação: Δy ≈ dy = f'(a) · dx.

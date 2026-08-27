@@ -1,0 +1,98 @@
+===============================================================================
+TÓPICO 6: LIMITES E CONTINUIDADE
+Carga Horária: 10 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. CONCEITO INTUITIVO E DEFINIÇÃO FORMAL DE LIMITE
+-------------------------------------------------------------------------------
+- Conceito Intuitivo: Dizemos que o limite de f(x) quando x se aproxima de a é L, 
+  escrito lim_{x -> a} f(x) = L, se pudermos tornar f(x) arbitrariamente próximo 
+  de L ao tomar x suficientemente próximo de a (com x ≠ a).
+
+- Definição Formal (Épsilon-Delta):
+  lim_{x -> a} f(x) = L  <=>  ∀ ε > 0, ∃ δ > 0 tal que se 0 < |x - a| < δ, então |f(x) - L| < ε.
+
+
+2. PROPRIEDADES OPERATÓRIAS DOS LIMITES
+-------------------------------------------------------------------------------
+Se lim_{x -> a} f(x) = L e lim_{x -> a} g(x) = M existem em R:
+1) Soma/Diferença: lim_{x -> a} [f(x) ± g(x)] = L ± M
+2) Produto por Constante: lim_{x -> a} [c · f(x)] = c · L
+3) Produto: lim_{x -> a} [f(x) · g(x)] = L · M
+4) Quociente: lim_{x -> a} [f(x) / g(x)] = L / M (desde que M ≠ 0)
+5) Potência/Raiz: lim_{x -> a} [f(x)]ⁿ = Lⁿ  e  lim_{x -> a} ⁿ√f(x) = ⁿ√L (L > 0 se n for par)
+6) Substituição Direta: Se f é uma função polinomial ou racional com a no domínio, lim_{x -> a} f(x) = f(a).
+
+
+3. TEOREMA DO CONFRONTO (TEOREMA DO SANDUÍCHE)
+-------------------------------------------------------------------------------
+- Enunciado: Se g(x) ≤ f(x) ≤ h(x) para todo x em um intervalo aberto contendo a (exceto possivelmente no próprio a), e se:
+    lim_{x -> a} g(x) = L   e   lim_{x -> a} h(x) = L
+  então:
+    lim_{x -> a} f(x) = L.
+
+- Exemplo Clássico: Calcule lim_{x -> 0} x² sin(1/x).
+  Como -1 ≤ sin(1/x) ≤ 1 para x ≠ 0, multiplicando por x² ≥ 0 obtemos:
+  -x² ≤ x² sin(1/x) ≤ x².
+  Como lim_{x -> 0} (-x²) = 0 e lim_{x -> 0} (x²) = 0, pelo Teorema do Confronto lim_{x -> 0} x² sin(1/x) = 0.
+
+
+4. O LIMITE TRIGONOMÉTRICO BÁSICO
+-------------------------------------------------------------------------------
+- Limite Fundamental Trigonométrico:
+  lim_{x -> 0} [ sin(x) / x ] = 1   (com x medido em radianos!)
+
+- Corolários Importantes:
+  * lim_{x -> 0} [ (1 - cos x) / x ] = 0
+  * lim_{x -> 0} [ tan(x) / x ] = 1
+  * lim_{u(x) -> 0} [ sin(u(x)) / u(x) ] = 1
+
+
+5. LIMITES LATERAIS
+-------------------------------------------------------------------------------
+- Limite pela Esquerda (x -> a⁻): Aproximação por valores estritamente menores que a.
+  lim_{x -> a⁻} f(x) = L₁
+
+- Limite pela Direita (x -> a⁺): Aproximação por valores estritamente maiores que a.
+  lim_{x -> a⁺} f(x) = L₂
+
+- Teorema da Existência do Limite Bilateral:
+  O limite lim_{x -> a} f(x) existe e é igual a L se, e somente se, ambos os limites laterais existem e são iguais:
+  lim_{x -> a⁻} f(x) = lim_{x -> a⁺} f(x) = L.
+
+
+6. LIMITES ENVOLVENDO O INFINITO E ASSÍNTOTAS
+-------------------------------------------------------------------------------
+- Limites Infinitos (Assíntotas Verticais):
+  * Ocorre quando f(x) cresce ou decresce sem limites à medida que x se aproxima de a.
+  * A reta vertical x = a é uma ASSÍNTOTA VERTICAL do gráfico de f se pelo menos uma das condições for verdadeira:
+    lim_{x -> a⁻} f(x) = ±∞   ou   lim_{x -> a⁺} f(x) = ±∞.
+
+- Limites no Infinito (Assíntotas Horizontais):
+  * Analisa o comportamento de f(x) quando x -> +∞ ou x -> -∞.
+  * Regra de Ouro para polinômios e frações racionais: Dividir numerador e denominador pela maior potência de x do denominador.
+  * Regra Prática para lim_{x -> ±∞} 1 / xⁿ = 0 (n > 0).
+  * O número e de Euler definido por limite:
+    lim_{x -> ±∞} (1 + 1/x)^x = e   ou   lim_{t -> 0} (1 + t)^(1/t) = e.
+  * A reta horizontal y = L é uma ASSÍNTOTA HORIZONTAL do gráfico de f se:
+    lim_{x -> +∞} f(x) = L   ou   lim_{x -> -∞} f(x) = L.
+
+
+7. CONTINUIDADE DE FUNÇÕES
+-------------------------------------------------------------------------------
+- Definição de Continuidade em um Ponto x = a:
+  Uma função f é CONTÍNUA em a se três condições forem satisfeitas simultaneamente:
+  1) f(a) está definida (a ∈ Dom(f)).
+  2) lim_{x -> a} f(x) existe.
+  3) lim_{x -> a} f(x) = f(a).
+
+- Tipos de Descontinuidade:
+  * Removível: O limite lim_{x -> a} f(x) existe, mas lim_{x -> a} f(x) ≠ f(a) (ou f(a) não está definida).
+  * Do Tipo Salto: Os limites laterais lim_{x -> a⁻} f(x) e lim_{x -> a⁺} f(x) existem, mas são DIFERENTES.
+  * Infinita: Pelo menos um dos limites laterais é +∞ ou -∞.
+
+- Teorema do Valor Intermediário (TVI):
+  Se f é contínua em um intervalo fechado [a, b] e N é qualquer número entre f(a) e f(b) (f(a) ≠ f(b)), 
+  então existe pelo menos um número c ∈ (a, b) tal que f(c) = N.
+  * Aplicação (Teorema de Bolzano / Busca de Raízes): Se f é contínua em [a, b] e f(a) · f(b) < 0, então existe pelo menos uma raiz c ∈ (a, b) tal que f(c) = 0.

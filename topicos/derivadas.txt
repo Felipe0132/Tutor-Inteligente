@@ -1,0 +1,105 @@
+===============================================================================
+TÓPICO 7: DERIVADAS
+Carga Horária: 14 horas/aula
+Plano de Ensino - Cálculo com Funções de uma Variável Real (CEFET-MG)
+===============================================================================
+
+1. A DERIVADA NUM PONTO: DEFINIÇÃO E INTERPRETAÇÕES
+-------------------------------------------------------------------------------
+- Definição Formal da Derivada de f em x = a:
+  f'(a) = lim_{h -> 0} [ f(a + h) - f(a) ] / h
+  ou equivalentemente:
+  f'(a) = lim_{x -> a} [ f(x) - f(a) ] / (x - a)
+
+- Interpretação Geométrica:
+  * f'(a) é o COEFICIENTE ANGULAR (m) da RETA TANGENTE ao gráfico de f no ponto P(a, f(a)).
+  * Equação da Reta Tangente em P(a, f(a)):
+    y - f(a) = f'(a) · (x - a)
+  * Equação da Reta Normal (perpendicular à tangente, se f'(a) ≠ 0):
+    y - f(a) = -1 / f'(a) · (x - a)
+
+- Interpretação Física:
+  * Se s(t) é a posição em função do tempo t, a derivada v(t) = s'(t) é a VELOCIDADE INSTANTÂNEA.
+  * Em geral, f'(x) representa a TAXA DE VARIAÇÃO INSTANTÂNEA de y em relação a x.
+
+- Diferenciabilidade e Continuidade:
+  * TEOREMA: Se f é diferenciável em a, então f é CONTÍNUA em a.
+  * ATENÇÃO (A recíproca é FALSA!): Uma função pode ser contínua em a sem ser diferenciável em a (ex: f(x) = |x| em x = 0 tem um bico/quina).
+
+
+2. A DERIVADA COMO FUNÇÃO E NOTAÇÕES
+-------------------------------------------------------------------------------
+- Função Derivada f'(x): Atribui a cada x no domínio o valor da derivada f'(x).
+- Notações Usuais:
+  * Notação de Lagrange: f'(x), f''(x), f'''(x), f⁽⁴⁾(x)
+  * Notação de Leibniz: dy/dx, d²y/dx², dⁿy/dxⁿ
+  * Notação Operacional: D f(x), D_x f(x)
+
+
+3. REGRAS BÁSICAS DE DERIVAÇÃO
+-------------------------------------------------------------------------------
+Seja c uma constante e u, v funções diferenciáveis de x:
+1) Regra da Constante: d/dx (c) = 0
+2) Regra da Potência (Regra do Tombo): d/dx (xⁿ) = n · xⁿ⁻¹ (para todo n ∈ R)
+3) Múltiplo Constante: d/dx [c · u(x)] = c · u'(x)
+4) Regra da Soma/Diferença: d/dx [u(x) ± v(x)] = u'(x) ± v'(x)
+5) Regra do Produto: d/dx [u(x) · v(x)] = u'(x) · v(x) + u(x) · v'(x)
+6) Regra do Quociente: d/dx [u(x) / v(x)] = [u'(x) · v(x) - u(x) · v'(x)] / [v(x)]²
+
+
+4. REGRA DA CADEIA (FUNÇÃO COMPOSTA)
+-------------------------------------------------------------------------------
+- Se y = f(u) e u = g(x), ambas diferenciáveis, então a função composta y = f(g(x)) é diferenciável:
+  dy/dx = (dy/du) · (du/dx)
+  ou na notação de funções:
+  d/dx [f(g(x))] = f'(g(x)) · g'(x)
+
+- Versões Generalizadas de Regras Básicas (usando Regra da Cadeia):
+  * d/dx [u(x)]ⁿ = n · [u(x)]ⁿ⁻¹ · u'(x)
+  * d/dx [e^(u(x))] = e^(u(x)) · u'(x)
+  * d/dx [ln(u(x))] = u'(x) / u(x)
+  * d/dx [sin(u(x))] = cos(u(x)) · u'(x)
+  * d/dx [cos(u(x))] = -sin(u(x)) · u'(x)
+
+
+5. DERIVAÇÃO IMPLÍCITA
+-------------------------------------------------------------------------------
+- Usada quando a função y não está isolada explicitamente em termos de x (ex: x² + y² = 25).
+- Algoritmo:
+  1) Derive ambos os lados da equação em relação a x.
+  2) Lembre-se de aplicar a Regra da Cadeia sempre que derivar termos contendo y (pois y = y(x)): d/dx [g(y)] = g'(y) · dy/dx.
+  3) Agrupe todos os termos contendo dy/dx de um lado da igualdade.
+  4) Fatore dy/dx e isole-o explicitamente.
+
+
+6. DERIVADAS DE FUNÇÕES ELEMENTARES
+-------------------------------------------------------------------------------
+- Funções Trigonométricas:
+  * d/dx (sin x) = cos x
+  * d/dx (cos x) = -sin x
+  * d/dx (tan x) = sec² x
+  * d/dx (csc x) = -csc x · cot x
+  * d/dx (sec x) = sec x · tan x
+  * d/dx (cot x) = -csc² x
+
+- Funções Trigonométricas Inversas:
+  * d/dx (arcsin x) = 1 / √(1 - x²)
+  * d/dx (arccos x) = -1 / √(1 - x²)
+  * d/dx (arctan x) = 1 / (1 + x²)
+  * d/dx (arccot x) = -1 / (1 + x²)
+  * d/dx (arcsec x) = 1 / (|x| √(x² - 1))
+  * d/dx (arccsc x) = -1 / (|x| √(x² - 1))
+
+- Funções Exponenciais e Logarítmicas:
+  * d/dx (e^x) = e^x
+  * d/dx (a^x) = a^x · ln(a)
+  * d/dx (ln |x|) = 1 / x
+  * d/dx (log_a |x|) = 1 / (x · ln a)
+
+
+7. DERIVADAS SUCESSIVAS (ORDEM SUPERIOR)
+-------------------------------------------------------------------------------
+- Segunda Derivada: f''(x) = d/dx [f'(x)] = d²y/dx²
+  * Representa a aceleração física a(t) = v'(t) = s''(t).
+  * Representa a taxa de variação da própria inclinação (concavidade).
+- Derivada de Ordem n: fⁿ(x) = dⁿy/dxⁿ.
