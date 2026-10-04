@@ -98,6 +98,10 @@ def montar_payload(prompt_data) -> list[dict]:
     ] 
 
     for autor, texto, grafico, imagem in st.session_state.historico:
+        # Armazena apenas mensagens textuais e imagens no contexto da IA
+        if not texto and not imagem:
+            continue
+
         role = "assistant" if autor == "assistant" else "user"
 
         mensagem = {
@@ -113,7 +117,6 @@ def montar_payload(prompt_data) -> list[dict]:
             ]
 
         mensagem_payload.append(mensagem)
-
 
     return mensagem_payload
 
