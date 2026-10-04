@@ -23,10 +23,10 @@ if not groq_api_key:
     except Exception:
         groq_api_key = ""
 
-if colab_url and colab_url.strip():
-    BACKEND = "colab"
-elif groq_api_key and groq_api_key.strip():
+if groq_api_key and groq_api_key.strip():
     BACKEND = "groq"
+elif colab_url and colab_url.strip():
+    BACKEND = "colab"
 else:
     BACKEND = "none"
 
