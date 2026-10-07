@@ -23,6 +23,8 @@ def inicializar_mensagens():
             area.markdown(conv.formatar_latex(intro))
 
         st.session_state.historico.append(("assistant", intro, None, None))
+        return True
+    return False
 
 def atualizar_mensagens():
     for autor, texto, grafico, imagem in st.session_state.historico:

@@ -57,8 +57,9 @@ def processar_interacao_ia(prompt_data):
     st.rerun()
 
 def renderizar_chat_tela_cheia():
-    sess.inicializar_mensagens()
-    sess.atualizar_mensagens()
+    recem_inicializado = sess.inicializar_mensagens()
+    if not recem_inicializado:
+        sess.atualizar_mensagens()
 
     prompt_data = obter_input_usuario()
 
@@ -70,8 +71,9 @@ def renderizar_chat_expansivo():
         caixa_de_texto = st.container()
 
         with caixa_de_texto:
-            sess.inicializar_mensagens()
-            sess.atualizar_mensagens()
+            recem_inicializado = sess.inicializar_mensagens()
+            if not recem_inicializado:
+                sess.atualizar_mensagens()
 
         prompt_data = obter_input_usuario()
 
