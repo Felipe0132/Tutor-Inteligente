@@ -3,6 +3,7 @@ import streamlit as st
 import core.session as sess
 import services.ai as ai
 import utils.conversor as conv
+import utils.graph as gc
 
 def obter_input_usuario():
     return st.chat_input(
@@ -12,25 +13,48 @@ def obter_input_usuario():
     )
 
 def processar_interacao_ia(prompt_data):
-    imagem_carregada = (prompt_data.files[0] if prompt_data.files else None)
+    imagem_carregada = (
+        prompt_data.files[0]
+        if prompt_data.files
+        else None
+    )
 
-    sess.adicionar_mensagem_usuario(prompt_data.text, imagem_carregada)
-    
-    resposta_tutor = ""
+    # 1. Adiciona e exibe a mensagem do usuário
+    sess.adicionar_mensagem_usuario(
+        prompt_data.text,
+        imagem_carregada
+    )
 
-    with st.spinner("O tutor está processando sua mensagem..."):
-        resposta_tutor = ai.requisitar_tutor(sess.montar_payload(prompt_data))
+    # 2. Transmite a resposta da IA em tempo real com Streaming
+    with st.chat_message("assistant"):
+        area_texto = st.empty()
 
-    texto = resposta_tutor.strip()
+        with st.spinner("O tutor está pensando..."):
+            resposta_completa = area_texto.write_stream(
+                ai.requisitar_tutor_stream(sess.montar_payload())
+            )
 
-    if ai.verificar_grafico(resposta_tutor):
-        grafico, texto = ai.extrair_grafico(resposta_tutor)
-        sess.adcionar_grafico("assistant", grafico)
-    
-    sess.adcionar_mensagem("assistant", texto)
-    
+        grafico = None
+        texto_final = resposta_completa
+
+        # 3. Detecta se a IA incluiu um bloco de gráfico
+        if ai.verificar_grafico(resposta_completa):
+            grafico, texto_final = ai.extrair_grafico(resposta_completa)
+            # Remove o JSON cru da tela e exibe o texto explicativo formatado
+            area_texto.markdown(conv.formatar_latex(texto_final))
+
+            if grafico:
+                try:
+                    fig = gc.processar_grafico(grafico)
+                    st.plotly_chart(fig, width="stretch")
+                except Exception as e:
+                    st.error(f"Não foi possível gerar o gráfico: {e}")
+        else:
+            area_texto.markdown(conv.formatar_latex(texto_final))
+
+    # 4. Registra no histórico para preservar o contexto nas próximas perguntas
+    sess.adicionar_interacao_assistente(texto_final, grafico)
     st.rerun()
-
 
 def renderizar_chat_tela_cheia():
     sess.inicializar_mensagens()
@@ -40,7 +64,6 @@ def renderizar_chat_tela_cheia():
 
     if prompt_data and (prompt_data.text.strip() or prompt_data.files):
         processar_interacao_ia(prompt_data)
-
 
 def renderizar_chat_expansivo():
     with st.expander("Chat com o tutor", expanded=True):
@@ -55,4 +78,3 @@ def renderizar_chat_expansivo():
         if prompt_data and (prompt_data.text.strip() or prompt_data.files):
             with caixa_de_texto:
                 processar_interacao_ia(prompt_data)
-

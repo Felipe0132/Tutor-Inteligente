@@ -5,3 +5,5 @@ groq
 streamlit[charts]
 plotly
 sympy
+pydantic
+numpy
