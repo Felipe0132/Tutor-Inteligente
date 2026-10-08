@@ -937,6 +937,10 @@ def processar_grafico(texto_grafico: str):
     # --------------------------------------------------------
 
     try:
+        if isinstance(dados, dict):
+            for el in dados.get("elements", []) or []:
+                if isinstance(el, dict) and "type" not in el and "expr_x" in el and "expr_y" in el:
+                    el["type"] = "function"
         graph = Graph.model_validate(dados)
 
     except ValidationError as e:
