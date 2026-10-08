@@ -8,102 +8,47 @@ st.set_page_config(
     layout="wide"
 )
 
-# Inicializa o estado do tema se não existir
-if "tema" not in st.session_state:
-    st.session_state.tema = "🌙 Escuro"
-
-# Barra lateral com Seletor de Tema
 with st.sidebar:
-    st.markdown("### 🎨 Tema de Apresentação")
-    tema_selecionado = st.radio(
-        "Modo de Exibição:",
-        ["🌙 Escuro", "☀️ Claro"],
-        index=0 if st.session_state.tema == "🌙 Escuro" else 1,
-        key="radio_tema"
-    )
-    st.session_state.tema = tema_selecionado
-    st.markdown("---")
     st.caption("💻 **Tutor Inteligente de Cálculo 1**\nSuporte pedagógico adaptativo e socrático.")
 
-# Definição de Variáveis de Tema (CSS)
-is_dark = st.session_state.tema == "🌙 Escuro"
-
-bg_color = "#0E1117" if is_dark else "#F8FAFC"
-card_bg = "#1E293B" if is_dark else "#FFFFFF"
-card_border = "#334155" if is_dark else "#E2E8F0"
-text_color = "#F8FAFC" if is_dark else "#0F172A"
-subtext_color = "#94A3B8" if is_dark else "#475569"
-header_color = "#38BDF8" if is_dark else "#1D4ED8"
-title_gradient = "linear-gradient(135deg, #38BDF8 0%, #818CF8 100%)" if is_dark else "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)"
-
-btn_bg = "#334155" if is_dark else "#F1F5F9"
-btn_text = "#F8FAFC" if is_dark else "#1E293B"
-btn_border = "#475569" if is_dark else "#CBD5E1"
-btn_hover_bg = "#475569" if is_dark else "#E2E8F0"
-btn_hover_border = "#38BDF8" if is_dark else "#2563EB"
-
 st.markdown(
-    f"""
+    """
     <style>
-    /* Estilização Geral do Fundo */
-    .stApp {{
-        background-color: {bg_color};
-        color: {text_color};
-    }}
-    .main-title {{
+    .main-title {
         text-align: center;
         font-size: 2.3rem;
         font-weight: 800;
-        background: {title_gradient};
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         margin-top: -15px;
         margin-bottom: 5px;
-    }}
-    .sub-title {{
+    }
+    .sub-title {
         text-align: center;
         font-size: 1.05rem;
-        color: {subtext_color};
         margin-bottom: 25px;
-    }}
-    .category-header {{
+        opacity: 0.85;
+    }
+    .category-header {
         font-size: 1.15rem;
         font-weight: 700;
-        color: {header_color};
         margin-bottom: 12px;
         text-align: center;
-    }}
-    /* Igualar a altura mínima dos 4 cards para alinhamento perfeito */
-    div[data-testid="stVerticalBlockBorderWrapper"] {{
-        background-color: {card_bg} !important;
-        border: 1px solid {card_border} !important;
-        border-radius: 12px !important;
+    }
+    /* Igualar a altura mínima dos 4 cards para alinhamento harmônico */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
         min-height: 450px !important;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }}
-    /* Estilização e Aumento dos Botões */
-    div.stButton > button {{
-        background-color: {btn_bg} !important;
-        color: {btn_text} !important;
-        border: 1px solid {btn_border} !important;
-        border-radius: 9px !important;
+    }
+    /* Ajuste de altura e espaçamento dos botões de tópicos */
+    div.stButton > button {
         font-weight: 600 !important;
         font-size: 0.98rem !important;
         padding: 0.65rem 0.6rem !important;
         min-height: 46px !important;
         margin-top: 4px !important;
         margin-bottom: 4px !important;
-        transition: all 0.2s ease-in-out !important;
-    }}
-    div.stButton > button:hover {{
-        background-color: {btn_hover_bg} !important;
-        border-color: {btn_hover_border} !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-    }}
+    }
     </style>
     """,
     unsafe_allow_html=True
