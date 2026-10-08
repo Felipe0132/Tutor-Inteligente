@@ -130,16 +130,12 @@ def montar_payload_inicial() -> list[dict]:
     instrucao_state = st.session_state.get("instrucao")
     if instrucao_state and instrucao_state.strip():
         if instrucao_state.endswith(".txt"):
-            caminho_topico = f"topicos/{instrucao_state}"
-            conteudo_topico = lv.ler_arquivo(caminho_topico)
             nome_limpo = instrucao_state.replace(".txt", "").replace("_", " ").title()
             prompt_usuario = texto_introducao.replace("{topico_nome}", nome_limpo)
-            if conteudo_topico and "Você é um tutor" not in conteudo_topico:
-                prompt_usuario += f"\n\n--- DETALHES DO TÓPICO E CONTEÚDO DA EMENTA ---\n{conteudo_topico}"
         else:
             prompt_usuario = texto_introducao.replace("{topico_nome}", instrucao_state.strip())
     else:
-        prompt_usuario = texto_introducao.replace("{topico_nome}", "Geral")
+        prompt_usuario = texto_introducao.replace("{topico_nome}", "Cálculo 1")
 
     payload_inicial = [
         {"role": "system", "content": obter_system_prompt()},
