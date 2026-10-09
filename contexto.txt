@@ -37,3 +37,7 @@ Regras do JSON:
 - JSON puro e válido dentro da tag (sem ```json ou explicações dentro dela).
 - Variável paramétrica única: "t" em expr_x e expr_y ("*" para multiplicação, "**" para potência).
 - Elementos suportados: function, point, tangent, secant, area, circle, vertical_line, horizontal_line, intersection.
+- TODO elemento DEVE ter o campo "type" (ex.: "type": "function").
+- Um elemento "function" é UMA curva (expr_x(t), expr_y(t)). Função y=f(x): expr_x="t", expr_y="f(t)".
+- Curva paramétrica/circunferência: use UM único elemento com expr_x e expr_y juntos e t_min/t_max adequados. Ex.: circunferência de raio 4: {"type":"function","expr_x":"4*cos(t)","expr_y":"4*sin(t)","t_min":"0","t_max":"2*pi"}. NUNCA separe x(t) e y(t) em dois elementos.
+- Ajuste x_range e y_range para o gráfico ficar centrado e com proporção adequada (ex.: ["-6","6"] para raio 4).
